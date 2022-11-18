@@ -4,7 +4,9 @@ import 'package:tengkulak_sayur/data/datasource/product_remote_data_source.dart'
 import 'package:tengkulak_sayur/data/repositories/product_repository_impl.dart';
 import 'package:tengkulak_sayur/domain/repositories/product_repository.dart';
 import 'package:tengkulak_sayur/domain/usecases/get_all_product.dart';
+import 'package:tengkulak_sayur/domain/usecases/search_product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/bloc/search_product_bloc.dart';
 
 final locator = GetIt.instance;
 
@@ -16,8 +18,13 @@ void init() {
     ),
   );
 
+  locator.registerFactory(
+    () => SearchProductBloc(locator()),
+  );
+
   // Usecase product
   locator.registerLazySingleton(() => GetAllProduct(locator()));
+  locator.registerLazySingleton(() => SearchProduct(locator()));
 
   // Repositories
   locator.registerLazySingleton<ProductRepository>(

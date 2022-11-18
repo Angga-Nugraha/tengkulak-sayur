@@ -8,6 +8,7 @@ import '../utils/exception.dart';
 
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
+  Future<List<ProductModel>> searchProduct(String query);
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -19,6 +20,17 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getAllProducts() async {
     final response = await client.get(Uri.parse('$_baseUrl/products'));
+    if (response.statusCode == 200) {
+      return ProductResponse.fromJson(json.decode(response.body)).productList;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> searchProduct(String query) async {
+    final response =
+        await client.get(Uri.parse('$_baseUrl/products/search?q=$query'));
     if (response.statusCode == 200) {
       return ProductResponse.fromJson(json.decode(response.body)).productList;
     } else {

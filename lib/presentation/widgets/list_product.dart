@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/data/utils/color.dart';
-import 'package:tengkulak_sayur/data/utils/text_style.dart';
+import 'package:tengkulak_sayur/data/utils/common/color.dart';
+import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 
 class ProductList extends StatelessWidget {
@@ -74,9 +74,7 @@ class ProductList extends StatelessWidget {
                                 color: processColor,
                                 child: Text(
                                   'Discount ${products.discountPercentage.toString()}%',
-                                  style: const TextStyle(
-                                    fontSize: 8,
-                                  ),
+                                  style: kBodyText,
                                 ),
                               ),
                               Expanded(
@@ -92,17 +90,15 @@ class ProductList extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: foregroundColor,
-                      minimumSize: const Size(100.0, 20.0),
-                    ),
                     onPressed: () {},
                     child: const Text(
                       'Tambah',
                       style: TextStyle(
                         fontSize: 10,
+                        color: Colors.white,
                       ),
                     ),
                   ),

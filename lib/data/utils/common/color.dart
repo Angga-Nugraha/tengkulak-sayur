@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/data/utils/text_style.dart';
 
 const Color primaryColor = Color(0XFF000000);
 const Color secondaryColor = Color(0XFF2A966F);
@@ -9,16 +8,22 @@ const Color processColor = Color(0XFFF4C01E);
 
 ThemeData myTheme = ThemeData(
   colorScheme: ThemeData.light().colorScheme.copyWith(
-        primary: primaryColor,
-        onPrimary: Colors.white,
+        primary: foregroundColor,
+        onPrimary: backgroundColor,
         secondary: secondaryColor,
       ),
-  textTheme: kTextTheme,
   scaffoldBackgroundColor: backgroundColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  appBarTheme: const AppBarTheme(
-    actionsIconTheme: IconThemeData(color: foregroundColor),
-    backgroundColor: backgroundColor,
-    foregroundColor: foregroundColor,
+  iconTheme: const IconThemeData(color: secondaryColor, size: 20),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    selectedItemColor: foregroundColor,
+    backgroundColor: foregroundColor,
+    unselectedItemColor: primaryColor,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: foregroundColor,
+      minimumSize: const Size(100.0, 20.0),
+    ),
   ),
 );
