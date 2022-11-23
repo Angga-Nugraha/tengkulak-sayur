@@ -86,9 +86,26 @@ class SearchPage extends StatelessWidget {
                   );
                 } else if (state is SearchHashData) {
                   final result = state.result;
-                  return Expanded(
-                    child: ProductCard(result: result),
-                  );
+                  if (result.isEmpty) {
+                    return const Text('Product not found');
+                  } else {
+                    return Expanded(
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 0.7,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 10,
+                        ),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: result.length,
+                        itemBuilder: (context, index) {
+                          return ProductCard(products: result[index]);
+                        },
+                      ),
+                    );
+                  }
                 } else {
                   return Expanded(
                     child: Container(),

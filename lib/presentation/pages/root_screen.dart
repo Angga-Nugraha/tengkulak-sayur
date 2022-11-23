@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tengkulak_sayur/presentation/pages/four.dart';
 import 'package:tengkulak_sayur/presentation/pages/home.dart';
-import 'package:tengkulak_sayur/presentation/pages/second.dart';
+import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/third.dart';
 
 class RootScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class _RootScreenState extends State<RootScreen> {
   int _bottomNavIndex = 1;
 
   final List<Widget> _listWidget = [
-    const SecondPage(),
+    const CategoryPage(),
     const MyHomePage(),
     const ThirdPage(),
     const FourPage(),

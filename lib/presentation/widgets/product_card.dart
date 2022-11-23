@@ -7,79 +7,95 @@ import 'package:tengkulak_sayur/domain/entities/product.dart';
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    required this.result,
+    required this.products,
   }) : super(key: key);
 
-  final List<Product> result;
+  final Product products;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          final product = result[index];
-          return InkWell(
-            onTap: () {},
-            child: Card(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                side: BorderSide(
-                  width: 1,
-                  color: Colors.white10,
-                ),
-              ),
-              child: ListTile(
-                iconColor: processColor,
-                textColor: primaryColor,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                leading: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  child: CachedNetworkImage(
-                    height: 100,
-                    width: 80,
-                    fit: BoxFit.fill,
-                    imageUrl: product.thumbnail,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      child: Column(
+        children: [
+          Expanded(
+            flex: 7,
+            child: InkWell(
+              onTap: () {},
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(15),
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                    child: CachedNetworkImage(
+                      height: 70,
+                      width: 100,
+                      fit: BoxFit.fill,
+                      imageUrl: products.thumbnail,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
-                ),
-                title: Text(
-                  product.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  SizedBox(
+                    height: 70,
+                    width: 100,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      textDirection: TextDirection.ltr,
                       children: [
-                        const Icon(Icons.star),
-                        Text('${product.rating}'),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            products.title,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Card(
+                          color: processColor,
+                          child: Text(
+                            'Discount ${products.discountPercentage.toString()}%',
+                            style: kBodyText,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '\$${products.price}',
+                            style: kHeading6,
+                          ),
+                        ),
                       ],
                     ),
-                    Text(
-                      '\$${product.price}',
-                      style: kHeading6,
-                    ),
-                  ],
-                ),
-                trailing: Card(
-                  color: processColor,
-                  child: Text(
-                    'Discount ${product.discountPercentage.toString()}%',
-                    style: kBodyText,
-                  ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Tambah',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.white,
                 ),
               ),
             ),
-          );
-        },
-        itemCount: result.length,
+          ),
+        ],
       ),
     );
   }

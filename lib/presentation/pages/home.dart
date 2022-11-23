@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
-import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
+import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
-import 'package:tengkulak_sayur/presentation/widgets/list_product.dart';
+import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -17,11 +19,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    Future.microtask(() => [
-          Provider.of<GetAllProductBloc>(context, listen: false).add(
-            FetchAllProduct(),
-          ),
-        ]);
+    Future.microtask(() =>
+        Provider.of<GetAllProductBloc>(context, listen: false)
+            .add(FetchAllProduct()));
     super.initState();
   }
 
@@ -113,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               title: 'Rekomendasi',
                               subtitle:
                                   'Suplier petani dari hasil bumi pilihan',
+                              trailing: 'Lihat semua >',
                               onTap: () {},
                             ),
                             BlocBuilder<GetAllProductBloc, GetAllProductState>(
@@ -122,10 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: CircularProgressIndicator(),
                                   );
                                 } else if (state is GetAllProductHasData) {
+                                  final product = state.result;
                                   return Container(
                                     height: 200,
                                     padding: const EdgeInsets.all(8.0),
-                                    child: ProductList(product: state.result),
+                                    child: _listProduct(product),
                                   );
                                 } else {
                                   return const Text('Failed');
@@ -136,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               title: 'Sayur Organik',
                               subtitle:
                                   'Produk bebas pestisida dan bahan kimia',
+                              trailing: 'Lihat semua >',
                               onTap: () {},
                             ),
                             BlocBuilder<GetAllProductBloc, GetAllProductState>(
@@ -145,14 +148,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: CircularProgressIndicator(),
                                   );
                                 } else if (state is GetAllProductHasData) {
-                                  final products = state.result
+                                  final product = state.result
                                       .where((element) =>
                                           element.category == 'smartphones')
                                       .toList();
                                   return Container(
                                     height: 200,
                                     padding: const EdgeInsets.all(8.0),
-                                    child: ProductList(product: products),
+                                    child: _listProduct(product),
                                   );
                                 } else {
                                   return const Text('Failed');
@@ -163,6 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               title: 'Sayur Non-Organik',
                               subtitle:
                                   'Produk bebas pestisida dan bahan kimia',
+                              trailing: 'Lihat semua >',
                               onTap: () {},
                             ),
                             BlocBuilder<GetAllProductBloc, GetAllProductState>(
@@ -172,14 +176,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: CircularProgressIndicator(),
                                   );
                                 } else if (state is GetAllProductHasData) {
-                                  final products = state.result
+                                  final product = state.result
                                       .where((element) =>
                                           element.category == 'skincare')
                                       .toList();
                                   return Container(
                                     height: 200,
                                     padding: const EdgeInsets.all(8.0),
-                                    child: ProductList(product: products),
+                                    child: _listProduct(product),
                                   );
                                 } else {
                                   return const Text('Failed');
@@ -200,9 +204,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  ListView _listProduct(List<Product> product) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemCount: product.length,
+      itemBuilder: (context, index) {
+        final products = product[index];
+        return ProductCard(products: products);
+      },
+    );
+  }
+
   ListTile _buildSubHeading(
       {required String title,
       required String subtitle,
+      required trailing,
       required Function() onTap}) {
     return ListTile(
       title: Text(
@@ -216,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
       trailing: InkWell(
         onTap: onTap,
         child: Text(
-          'Lihat semua >',
+          trailing,
           style: kButtonText,
         ),
       ),
