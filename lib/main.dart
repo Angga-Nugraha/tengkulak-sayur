@@ -6,13 +6,13 @@ import 'package:tengkulak_sayur/data/utils/utils.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
-import 'package:tengkulak_sayur/presentation/bloc/get_category_product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/search_product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/pages/home.dart';
 import 'package:tengkulak_sayur/presentation/pages/root_screen.dart';
-import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/search_page.dart';
 
 import 'injection.dart' as di;
+import 'presentation/authentication/bloc/login_bloc.dart';
 
 void main() {
   di.init();
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.locator<GetAllProductBloc>()),
         BlocProvider(create: (_) => di.locator<SearchProductBloc>()),
-        BlocProvider(create: (_) => di.locator<CategoryProductBloc>()),
+        BlocProvider(create: (_) => di.locator<LoginBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,10 +41,9 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (_) => const SearchPage(),
               );
-            case categoryPageRoute:
-              final category = settings.arguments as String;
+            case homePage:
               return MaterialPageRoute(
-                builder: (_) => DetailCategory(category: category),
+                builder: (_) => const MyHomePage(),
               );
             default:
               return MaterialPageRoute(builder: (_) {

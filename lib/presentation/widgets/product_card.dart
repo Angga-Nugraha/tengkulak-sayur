@@ -11,6 +11,7 @@ class ProductCard extends StatelessWidget {
   }) : super(key: key);
 
   final Product products;
+  static const _baseUrl = "http://10.0.2.2:5000/images";
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +34,8 @@ class ProductCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       height: 70,
                       width: 100,
-                      fit: BoxFit.fill,
-                      imageUrl: products.thumbnail,
+                      fit: BoxFit.contain,
+                      imageUrl: '$_baseUrl/${products.image}',
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),
@@ -65,7 +66,7 @@ class ProductCard extends StatelessWidget {
                         Card(
                           color: processColor,
                           child: Text(
-                            'Discount ${products.discountPercentage.toString()}%',
+                            'Discount ${(products.discount * 100).toString()} %',
                             style: kBodyText,
                           ),
                         ),

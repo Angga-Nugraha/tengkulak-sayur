@@ -18,6 +18,7 @@ class SearchProductBloc extends Bloc<SearchEvent, SearchState> {
 
       emit(SearchLoading());
       final result = await searchProduct.execute(query);
+      // print(result);
       result.fold(
         (failure) => emit(SearchError(failure.message)),
         (data) => emit(SearchHashData(data)),

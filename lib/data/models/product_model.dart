@@ -1,100 +1,120 @@
-// To parse this JSON data, do
-//
-//     final product = productFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 
-ProductModel productFromJson(String str) =>
+ProductModel productModelFromJson(String str) =>
     ProductModel.fromJson(json.decode(str));
 
-String productToJson(ProductModel data) => json.encode(data.toJson());
+String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel extends Equatable {
   const ProductModel({
     required this.id,
+    required this.uuid,
     required this.title,
     required this.description,
     required this.price,
-    required this.discountPercentage,
-    required this.rating,
+    required this.discount,
+    required this.ratting,
     required this.stock,
-    required this.brand,
+    required this.weight,
     required this.category,
-    required this.thumbnail,
-    required this.images,
+    required this.image,
+    required this.imageUrl,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final int id;
+  final String uuid;
   final String title;
   final String description;
   final int price;
-  final double? discountPercentage;
-  final double rating;
+  final double? discount;
+  final double ratting;
   final int stock;
-  final String brand;
+  final int weight;
   final String category;
-  final String thumbnail;
-  final List<String> images;
+  final String image;
+  final String imageUrl;
+  final int userId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
+        uuid: json["uuid"],
         title: json["title"],
         description: json["description"],
         price: json["price"],
-        discountPercentage: json["discountPercentage"].toDouble(),
-        rating: json["rating"].toDouble(),
+        discount: json["discount"].toDouble(),
+        ratting: json["ratting"].toDouble(),
         stock: json["stock"],
-        brand: json["brand"],
+        weight: json["weight"],
         category: json["category"],
-        thumbnail: json["thumbnail"],
-        images: List<String>.from(json["images"].map((x) => x)),
+        image: json["image"],
+        imageUrl: json["image_url"],
+        userId: json["userId"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "uuid": uuid,
         "title": title,
         "description": description,
         "price": price,
-        "discountPercentage": discountPercentage,
-        "rating": rating,
+        "discount": discount,
+        "ratting": ratting,
         "stock": stock,
-        "brand": brand,
+        "weight": weight,
         "category": category,
-        "thumbnail": thumbnail,
-        "images": List<dynamic>.from(images.map((x) => x)),
+        "image": image,
+        "image_url": imageUrl,
+        "userId": userId,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 
   Product toEntity() {
     return Product(
       id: id,
+      uuid: uuid,
       title: title,
       description: description,
       price: price,
-      discountPercentage: discountPercentage!,
-      rating: rating,
+      discount: discount!,
+      ratting: ratting,
       stock: stock,
-      brand: brand,
+      weight: weight,
       category: category,
-      thumbnail: thumbnail,
-      images: images,
+      image: image,
+      imageUrl: imageUrl,
+      userId: userId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 
   @override
   List<Object?> get props => [
         id,
+        uuid,
         title,
         description,
         price,
-        discountPercentage,
-        rating,
+        discount,
+        ratting,
         stock,
-        brand,
+        weight,
         category,
-        thumbnail,
-        images,
+        image,
+        imageUrl,
+        userId,
+        createdAt,
+        updatedAt,
       ];
 }

@@ -7,12 +7,12 @@ class ProductResponse extends Equatable {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
-        productList: List<ProductModel>.from((json["products"] as List)
+        productList: List<ProductModel>.from((json["data"] as List)
             .map((x) => ProductModel.fromJson(x))
-            .where((element) => element.discountPercentage != null)),
+            .where((element) => element.discount != null)),
       );
   Map<String, dynamic> toJson() => {
-        'products': List<dynamic>.from(productList.map((e) => e.toJson())),
+        'data': List<dynamic>.from(productList.map((e) => e.toJson())),
       };
 
   @override
