@@ -1,21 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
-import 'package:tengkulak_sayur/domain/repositories/auth_repository.dart';
+import 'package:tengkulak_sayur/domain/usecases/auth/login.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthRepository authRepository;
+  final Login login;
 
-  LoginBloc({required this.authRepository}) : super(const LoginState()) {
-    on<LoginSubmitted>((event, emit) async {
+  LoginBloc({required this.login}) : super(LoginInitialState()) {
+    on<LoginButtonSubmitted>((event, emit) async {
       final email = event.email;
       final password = event.password;
 
-      final result = await authRepository.login(email, password);
-      result.fold(
-        (failure) => emit(FormSubmitted()),
-        (data) => emit(SubmittedSuccess(data)),
-      );
+      emit(LoginLoadingState());
+      final auth = await login.execute(email, password);
+      auth.fold((failure) => emit(LoginErrorState(message: failure.message)),
+          (data) => emit(LoginSuccessState(result: data)));
     });
   }
 }
@@ -27,37 +26,41 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoginSubmitted extends LoginEvent {
+class LoginButtonSubmitted extends LoginEvent {
   final String email;
   final String password;
 
-  const LoginSubmitted({required this.email, required this.password});
+  const LoginButtonSubmitted({required this.email, required this.password});
+
   @override
   List<Object?> get props => [email, password];
 }
 
 // Bloc State
-class LoginState extends Equatable {
+abstract class LoginState extends Equatable {
   const LoginState();
 
   @override
   List<Object?> get props => [];
 }
 
-class FormSubmitted extends LoginState {}
+class LoginInitialState extends LoginState {}
 
-class SubmittedSuccess extends LoginState {
-  final User user;
-  const SubmittedSuccess(this.user);
+class LoginLoadingState extends LoginState {}
+
+class LoginSuccessState extends LoginState {
+  final User result;
+
+  const LoginSuccessState({required this.result});
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [result];
 }
 
-class SubmittedFailed extends LoginState {
+class LoginErrorState extends LoginState {
   final String message;
 
-  const SubmittedFailed({required this.message});
+  const LoginErrorState({required this.message});
 
   @override
   List<Object?> get props => [message];

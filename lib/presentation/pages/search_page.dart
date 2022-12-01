@@ -22,7 +22,7 @@ class SearchPage extends StatelessWidget {
                 contentPadding: const EdgeInsets.all(2),
                 minVerticalPadding: 10,
                 leading: IconButton(
-                  color: backgroundColor,
+                  color: Colors.white,
                   onPressed: (() {
                     Navigator.pop(context);
                   }),
@@ -34,7 +34,7 @@ class SearchPage extends StatelessWidget {
                   height: 30,
                   width: MediaQuery.of(context).size.width * 0.7,
                   decoration: BoxDecoration(
-                    color: backgroundColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: const [
                       BoxShadow(
@@ -69,7 +69,7 @@ class SearchPage extends StatelessWidget {
                   ),
                 ),
                 trailing: IconButton(
-                  color: backgroundColor,
+                  color: Colors.white,
                   icon: const Icon(
                     Icons.shopping_cart_outlined,
                   ),

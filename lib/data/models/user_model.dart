@@ -2,14 +2,8 @@
 //
 //     final userModel = userModelFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
-
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
-
-String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel extends Equatable {
   const UserModel({
@@ -17,6 +11,7 @@ class UserModel extends Equatable {
     required this.uuid,
     required this.name,
     required this.email,
+    required this.image,
     required this.addres,
   });
 
@@ -24,6 +19,7 @@ class UserModel extends Equatable {
   final String uuid;
   final String name;
   final String email;
+  final String image;
   final String addres;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -31,6 +27,7 @@ class UserModel extends Equatable {
         uuid: json["uuid"],
         name: json["name"],
         email: json["email"],
+        image: json["image"],
         addres: json["addres"],
       );
 
@@ -39,6 +36,7 @@ class UserModel extends Equatable {
         "uuid": uuid,
         "name": name,
         "email": email,
+        "image": image,
         "addres": addres,
       };
 
@@ -48,6 +46,7 @@ class UserModel extends Equatable {
       uuid: uuid,
       name: name,
       email: email,
+      image: image,
       addres: addres,
     );
   }

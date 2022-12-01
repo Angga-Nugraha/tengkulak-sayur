@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tengkulak_sayur/domain/entities/product.dart';
-import 'package:tengkulak_sayur/domain/usecases/search_product.dart';
+import 'package:tengkulak_sayur/domain/usecases/product/search_product.dart';
 
 class SearchProductBloc extends Bloc<SearchEvent, SearchState> {
   final SearchProduct searchProduct;
@@ -18,7 +18,6 @@ class SearchProductBloc extends Bloc<SearchEvent, SearchState> {
 
       emit(SearchLoading());
       final result = await searchProduct.execute(query);
-      // print(result);
       result.fold(
         (failure) => emit(SearchError(failure.message)),
         (data) => emit(SearchHashData(data)),

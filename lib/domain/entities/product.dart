@@ -34,6 +34,7 @@ class Product extends Equatable {
   final int userId;
   final DateTime createdAt;
   final DateTime updatedAt;
+
   @override
   List<Object?> get props => [
         id,

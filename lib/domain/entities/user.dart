@@ -6,6 +6,7 @@ class User extends Equatable {
     required this.uuid,
     required this.name,
     required this.email,
+    required this.image,
     required this.addres,
   });
 
@@ -13,6 +14,7 @@ class User extends Equatable {
   final String uuid;
   final String name;
   final String email;
+  final String image;
   final String addres;
 
   @override
@@ -21,6 +23,7 @@ class User extends Equatable {
         uuid,
         name,
         email,
+        image,
         addres,
       ];
 }

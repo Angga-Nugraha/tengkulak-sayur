@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
-import 'package:tengkulak_sayur/domain/usecases/get_all_product.dart';
+import 'package:tengkulak_sayur/domain/usecases/product/get_all_product.dart';
 
 class GetAllProductBloc extends Bloc<GetAllProductEvent, GetAllProductState> {
   final GetAllProduct getAllProduct;

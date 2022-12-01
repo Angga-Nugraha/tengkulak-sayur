@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
-import 'package:tengkulak_sayur/domain/repositories/auth_repository.dart';
+import 'package:tengkulak_sayur/domain/repositories/user_repository.dart';
 
-import '../../data/utils/failure.dart';
+import '../../../data/utils/failure.dart';
 
 class Login {
   final AuthRepository authRepository;

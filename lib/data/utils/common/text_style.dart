@@ -9,7 +9,7 @@ final TextStyle kHeading6 = GoogleFonts.firaSans(
     fontSize: 15,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
-    color: secondaryColor);
+    color: primaryColor);
 final TextStyle kSubtitle = GoogleFonts.firaSans(
     fontSize: 10, fontWeight: FontWeight.w500, letterSpacing: 0.15);
 final TextStyle kBodyText = GoogleFonts.firaSans(

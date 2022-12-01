@@ -16,6 +16,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white.withOpacity(0.8),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Column(
         children: [

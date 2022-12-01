@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
+import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({required this.user, super.key});
+
+  final User user;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -30,7 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: RefreshIndicator(
         displacement: 50,
-        onRefresh: () async => Navigator.pushNamed(context, homePage),
+        onRefresh: () async => Navigator.pushNamed(context, rootScreenRoute,
+            arguments: widget.user),
         child: SafeArea(
           child: Column(
             children: [
@@ -48,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         // padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         margin: const EdgeInsets.symmetric(horizontal: 10.0),
                         decoration: BoxDecoration(
-                          color: backgroundColor,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: const [
                             BoxShadow(
@@ -101,6 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView(
                     padding: const EdgeInsets.all(8.0),
                     children: [
+                      Text(
+                        'Hallo, ${widget.user.name}...',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      const SizedBox(height: 10),
                       Column(
                         children: [
                           Container(

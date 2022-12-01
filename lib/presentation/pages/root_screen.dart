@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/presentation/pages/four.dart';
 import 'package:tengkulak_sayur/presentation/pages/home.dart';
 import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/third.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
-
+  const RootScreen({required this.user, super.key});
+  final User user;
   @override
   State<RootScreen> createState() => _RootScreenState();
 }
@@ -14,12 +15,12 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   int _bottomNavIndex = 1;
 
-  final List<Widget> _listWidget = [
-    const CategoryPage(),
-    const MyHomePage(),
-    const ThirdPage(),
-    const FourPage(),
-  ];
+  List<Widget> _listWidget() => [
+        const CategoryPage(),
+        MyHomePage(user: widget.user),
+        const ThirdPage(),
+        FourPage(user: widget.user)
+      ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
     const BottomNavigationBarItem(
@@ -48,8 +49,9 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> listWidget = _listWidget();
     return Scaffold(
-      body: _listWidget[_bottomNavIndex],
+      body: listWidget[_bottomNavIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
         items: _bottomNavBarItems,
