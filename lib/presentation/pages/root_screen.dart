@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
-import 'package:tengkulak_sayur/presentation/pages/four.dart';
-import 'package:tengkulak_sayur/presentation/pages/home.dart';
+import 'package:tengkulak_sayur/presentation/pages/profile_page.dart';
+import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/third.dart';
 
@@ -19,7 +19,7 @@ class _RootScreenState extends State<RootScreen> {
         const CategoryPage(),
         MyHomePage(user: widget.user),
         const ThirdPage(),
-        FourPage(user: widget.user)
+        ProfilePage(user: widget.user)
       ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [

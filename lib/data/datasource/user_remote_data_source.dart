@@ -72,7 +72,7 @@ class AuthenticationImpl implements Authentication {
 
     Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
-    print(data);
+
     if (response.statusCode == 200) {
       return UserModel.fromJson(data['data']);
     } else if (response.statusCode == 401) {

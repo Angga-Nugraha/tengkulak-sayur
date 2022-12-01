@@ -11,7 +11,7 @@ import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/get_category_product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/search_product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
-import 'package:tengkulak_sayur/presentation/pages/home.dart';
+import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/root_screen.dart';
 import 'package:tengkulak_sayur/presentation/pages/search_page.dart';
 import 'package:tengkulak_sayur/presentation/widgets/splash_screen.dart';

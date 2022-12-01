@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 
-class FourPage extends StatelessWidget {
-  const FourPage({required this.user, super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({required this.user, super.key});
   final User user;
   static const baseUrl = "http://10.0.2.2:5000/user";
 
