@@ -13,14 +13,16 @@ class UserModel extends Equatable {
     required this.email,
     required this.image,
     required this.addres,
+    required this.refreshToken,
   });
 
   final int id;
   final String uuid;
   final String name;
   final String email;
-  final String image;
+  final String? image;
   final String addres;
+  final String? refreshToken;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
@@ -29,6 +31,7 @@ class UserModel extends Equatable {
         email: json["email"],
         image: json["image"],
         addres: json["addres"],
+        refreshToken: json['refresh_token'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +39,9 @@ class UserModel extends Equatable {
         "uuid": uuid,
         "name": name,
         "email": email,
-        "image": image,
+        "image": image ?? '',
         "addres": addres,
+        "refresh_token": refreshToken ?? '',
       };
 
   User toEntity() {
@@ -48,6 +52,7 @@ class UserModel extends Equatable {
       email: email,
       image: image,
       addres: addres,
+      refreshToken: refreshToken,
     );
   }
 
@@ -58,5 +63,6 @@ class UserModel extends Equatable {
         name,
         email,
         addres,
+        refreshToken,
       ];
 }

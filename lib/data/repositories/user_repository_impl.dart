@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:tengkulak_sayur/data/datasource/user_remote_data_source.dart';
+import 'package:tengkulak_sayur/data/datasource/authentication.dart';
 import 'package:tengkulak_sayur/data/utils/exception.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/data/utils/failure.dart';
@@ -43,14 +43,28 @@ class AuthRepositositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> me(int id) async {
+  Future<Either<Failure, User>> getUserById(String uuid) async {
     try {
-      final result = await authentication.me(id);
+      final result = await authentication.getUserById(uuid);
       return Right(result.toEntity());
     } on ServerException {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String?>> logout() async {
+    try {
+      final result = await authentication.logout();
+      return Right(result);
+    } on ServerException {
+      throw '';
+    } on SocketException {
+      throw 'Failed to connect to the network';
     } catch (e) {
       return Left(CommonFailure(e.toString()));
     }

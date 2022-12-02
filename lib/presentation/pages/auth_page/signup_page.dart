@@ -1,11 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
-import 'package:tengkulak_sayur/presentation/authentication/bloc/signup_bloc.dart';
-import 'package:tengkulak_sayur/presentation/authentication/widgets/my_textfield.dart';
+import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
+import 'package:tengkulak_sayur/presentation/widgets/my_textfield.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -24,13 +25,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: foregroundColor,
-      body: BlocListener<SignUpBloc, SignUpState>(
+      body: BlocListener<AddUserBloc, UserState>(
         listener: (context, state) {
-          if (state is SignUpLoadingState) {
+          if (state is UserLoadingState) {
             const CircularProgressIndicator();
-          } else if (state is SignUpErrorState) {
+          } else if (state is UserErrorState) {
             _myDialog(context, state.message);
-          } else if (state is SignUpSuccessState) {
+          } else if (state is UserSuccessState) {
             _myDialog(context, 'Registrasi berhasil');
           }
         },
@@ -88,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (_nameControler.text == '') {
                           _myDialog(context, 'Field tidak boleh kosong');
                         } else {
-                          context.read<SignUpBloc>().add(
+                          context.read<AddUserBloc>().add(
                                 SignUpButtonSubmitted(
                                   name: _nameControler.text,
                                   email: _emailControler.text,
@@ -111,7 +112,34 @@ class _SignUpPageState extends State<SignUpPage> {
                         style: TextStyle(fontSize: 20, color: foregroundColor),
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(children: [
+                        const TextSpan(
+                          text: 'Have an account?',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        const WidgetSpan(
+                          child: SizedBox(
+                            width: 5,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Login here !',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(context, loginPageRoute);
+                            },
+                        ),
+                      ]),
+                    ),
                   ],
                 ),
               )

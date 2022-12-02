@@ -73,7 +73,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            '\$${products.price}',
+                            'Rp.${products.price}',
                             style: kHeading6,
                           ),
                         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
-import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -14,9 +14,10 @@ class CategoryPage extends StatefulWidget {
 class _SecondPageState extends State<CategoryPage> {
   @override
   void initState() {
-    Future.microtask(() =>
-        Provider.of<GetAllProductBloc>(context, listen: false)
-            .add(FetchAllProduct()));
+    Future.microtask(
+      () => Provider.of<ProductBloc>(context, listen: false)
+          .add(FetchAllProduct()),
+    );
     super.initState();
   }
 
@@ -28,13 +29,13 @@ class _SecondPageState extends State<CategoryPage> {
         centerTitle: true,
         title: const Text('KATEGORI PRODUK'),
       ),
-      body: BlocBuilder<GetAllProductBloc, GetAllProductState>(
+      body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
-          if (state is GetAllProductLoading) {
+          if (state is ProductLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is GetAllProductHasData) {
+          } else if (state is ProductHasDataState) {
             final categories =
                 state.result.map((element) => element.category).toSet();
             return Padding(
@@ -48,10 +49,6 @@ class _SecondPageState extends State<CategoryPage> {
                 ),
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, categoryPageRoute,
-                          arguments: categories.elementAt(index));
-                    },
                     child: Container(
                       height: 150,
                       width: 100,
@@ -75,6 +72,10 @@ class _SecondPageState extends State<CategoryPage> {
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(context, detailCategoryPageRoute,
+                          arguments: categories.elementAt(index));
+                    },
                   );
                 },
                 itemCount: categories.length,

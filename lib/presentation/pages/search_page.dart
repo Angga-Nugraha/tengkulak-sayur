@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
+import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
-import '../bloc/search_product_bloc.dart';
-
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +52,7 @@ class SearchPage extends StatelessWidget {
                     ],
                   ),
                   child: TextField(
+                    controller: textEditingController,
                     decoration: const InputDecoration(
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -78,13 +85,13 @@ class SearchPage extends StatelessWidget {
               ),
             ),
             const Text('Search result'),
-            BlocBuilder<SearchProductBloc, SearchState>(
+            BlocBuilder<SearchProductBloc, ProductState>(
               builder: (context, state) {
-                if (state is SearchLoading) {
+                if (state is ProductLoadingState) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is SearchHashData) {
+                } else if (state is ProductHasDataState) {
                   final result = state.result;
                   if (result.isEmpty) {
                     return const Text('Product not found');
@@ -106,6 +113,8 @@ class SearchPage extends StatelessWidget {
                       ),
                     );
                   }
+                } else if (state is ProductErrorState) {
+                  return Text(state.message);
                 } else {
                   return Expanded(
                     child: Container(),
@@ -117,5 +126,11 @@ class SearchPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
   }
 }

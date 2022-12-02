@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tengkulak_sayur/data/helper/preferences_helper.dart';
 import 'package:tengkulak_sayur/data/models/product_model.dart';
 import 'package:tengkulak_sayur/data/models/product_response.dart';
 
@@ -21,9 +21,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getAllProducts() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    final token = sharedPreferences.getString('token');
+    final token = await secureStorage.readToken();
 
     final response = await client.get(Uri.parse('$_baseUrl/product'),
         headers: {'authorization': 'Bearer $token'});
@@ -38,9 +36,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> searchProduct(String query) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    final token = sharedPreferences.getString('token');
+    final token = await secureStorage.readToken();
     final response = await client.get(
         Uri.parse('$_baseUrl/search/product?search=$query'),
         headers: {'authorization': 'Bearer $token'});
@@ -55,9 +51,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getCategoryProduct(String query) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final token = await secureStorage.readToken();
 
-    final token = sharedPreferences.getString('token');
     final response = await client.get(
         Uri.parse('$_baseUrl/product/category/$query'),
         headers: {'authorization': 'Bearer $token'});

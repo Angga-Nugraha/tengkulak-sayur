@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/presentation/pages/profile_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/third.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({required this.user, super.key});
-  final User user;
+  final String uuid;
+  const RootScreen({required this.uuid, super.key});
   @override
   State<RootScreen> createState() => _RootScreenState();
 }
@@ -17,9 +16,9 @@ class _RootScreenState extends State<RootScreen> {
 
   List<Widget> _listWidget() => [
         const CategoryPage(),
-        MyHomePage(user: widget.user),
+        const MyHomePage(),
         const ThirdPage(),
-        ProfilePage(user: widget.user)
+        ProfilePage(uuid: widget.uuid),
       ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [

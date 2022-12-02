@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
-import 'package:tengkulak_sayur/domain/entities/user.dart';
-import 'package:tengkulak_sayur/presentation/bloc/get_all_product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/widgets/cutom_appbar.dart';
 import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({required this.user, super.key});
-
-  final User user;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -21,226 +18,120 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    Future.microtask(() =>
-        Provider.of<GetAllProductBloc>(context, listen: false)
-            .add(FetchAllProduct()));
+    Future.microtask(() => [
+          Provider.of<ProductBloc>(context, listen: false)
+              .add(FetchAllProduct()),
+        ]);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        displacement: 50,
-        onRefresh: () async => Navigator.pushNamed(context, rootScreenRoute,
-            arguments: widget.user),
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: SafeArea(
+        child: Column(
+          children: [
+            const CustomAppbar(),
+            Expanded(
+              child: SizedBox(
+                height: double.infinity,
+                child: ListView(
+                  padding: const EdgeInsets.all(8.0),
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, searchPageRoute);
-                      },
-                      child: Container(
-                        height: 30,
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        // padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black38,
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset:
-                                  Offset(1, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              Expanded(
-                                child: Icon(Icons.search),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Text('Search product'),
-                              ),
-                            ],
+                    const SizedBox(height: 10),
+                    Column(
+                      children: [
+                        Container(
+                          height: 200,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/img/banner.png"),
+                                fit: BoxFit.fill),
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.shopping_cart_outlined,
+                        BlocBuilder<ProductBloc, ProductState>(
+                          builder: (context, state) {
+                            if (state is ProductLoadingState) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (state is ProductHasDataState) {
+                              final recomendationProduct = state.result
+                                  .where((element) => element.ratting > 4.0)
+                                  .toList();
+
+                              final organik = state.result
+                                  .where((element) =>
+                                      element.category == 'Organik')
+                                  .toList();
+
+                              final nonorganik = state.result
+                                  .where((element) =>
+                                      element.category == 'Non-Organik')
+                                  .toList();
+
+                              return Column(
+                                children: [
+                                  _buildSubHeading(
+                                    title: 'Rekomendasi',
+                                    subtitle:
+                                        'Suplier petani dari hasil bumi pilihan',
+                                    trailing: 'Lihat semua >',
+                                    onTap: () {},
+                                  ),
+                                  _listProduct(recomendationProduct),
+                                  _buildSubHeading(
+                                    title: 'Sayur Organik',
+                                    subtitle:
+                                        'Produk bebas pestisida dan bahan kimia',
+                                    trailing: 'Lihat semua >',
+                                    onTap: () {},
+                                  ),
+                                  _listProduct(organik),
+                                  _buildSubHeading(
+                                    title: 'Sayur Non-Organik',
+                                    subtitle:
+                                        'Produk bebas pestisida dan bahan kimia',
+                                    trailing: 'Lihat semua >',
+                                    onTap: () {},
+                                  ),
+                                  _listProduct(nonorganik),
+                                ],
+                              );
+                            } else if (state is ProductErrorState) {
+                              final message = state.message;
+                              return Text(message);
+                            } else {
+                              return const Text('Failed');
+                            }
+                          },
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none,
-                        ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
               ),
-              Expanded(
-                child: SizedBox(
-                  height: double.infinity,
-                  child: ListView(
-                    padding: const EdgeInsets.all(8.0),
-                    children: [
-                      Text(
-                        'Hallo, ${widget.user.name}...',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          Container(
-                            height: 200,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage("assets/img/banner.png"),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
-                          Column(
-                            children: [
-                              _buildSubHeading(
-                                title: 'Rekomendasi',
-                                subtitle:
-                                    'Suplier petani dari hasil bumi pilihan',
-                                trailing: 'Lihat semua >',
-                                onTap: () {},
-                              ),
-                              BlocBuilder<GetAllProductBloc,
-                                  GetAllProductState>(
-                                builder: (context, state) {
-                                  if (state is GetAllProductLoading) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else if (state is GetAllProductHasData) {
-                                    final product = state.result
-                                        .where(
-                                            (element) => element.ratting > 4.0)
-                                        .toList();
-                                    return Container(
-                                      height: 200,
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: _listProduct(product),
-                                    );
-                                  } else if (state is GetAllProductError) {
-                                    final message = state.message;
-                                    return Text(message);
-                                  } else {
-                                    return const Text('Failed');
-                                  }
-                                },
-                              ),
-                              _buildSubHeading(
-                                title: 'Sayur Organik',
-                                subtitle:
-                                    'Produk bebas pestisida dan bahan kimia',
-                                trailing: 'Lihat semua >',
-                                onTap: () {},
-                              ),
-                              BlocBuilder<GetAllProductBloc,
-                                  GetAllProductState>(
-                                builder: (context, state) {
-                                  if (state is GetAllProductLoading) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else if (state is GetAllProductHasData) {
-                                    final product = state.result
-                                        .where((element) =>
-                                            element.category == 'Organik')
-                                        .toList();
-                                    return Container(
-                                      height: 200,
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: _listProduct(product),
-                                    );
-                                  } else if (state is GetAllProductError) {
-                                    final message = state.message;
-                                    return Text(message);
-                                  } else {
-                                    return const Text('Failed');
-                                  }
-                                },
-                              ),
-                              _buildSubHeading(
-                                title: 'Sayur Non-Organik',
-                                subtitle:
-                                    'Produk bebas pestisida dan bahan kimia',
-                                trailing: 'Lihat semua >',
-                                onTap: () {},
-                              ),
-                              BlocBuilder<GetAllProductBloc,
-                                  GetAllProductState>(
-                                builder: (context, state) {
-                                  if (state is GetAllProductLoading) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  } else if (state is GetAllProductHasData) {
-                                    final product = state.result
-                                        .where((element) =>
-                                            element.category == 'Non-Organik')
-                                        .toList();
-                                    return Container(
-                                      height: 200,
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: _listProduct(product),
-                                    );
-                                  } else if (state is GetAllProductError) {
-                                    final message = state.message;
-                                    return Text(message);
-                                  } else {
-                                    return const Text('Failed');
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  ListView _listProduct(List<Product> product) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemCount: product.length,
-      itemBuilder: (context, index) {
-        final products = product[index];
-        return ProductCard(products: products);
-      },
+  Container _listProduct(List<Product> product) {
+    return Container(
+      height: 200,
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: product.length,
+        itemBuilder: (context, index) {
+          final products = product[index];
+          return ProductCard(products: products);
+        },
+      ),
     );
   }
 
