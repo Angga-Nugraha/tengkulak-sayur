@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tengkulak_sayur/data/helper/preferences_helper.dart';
+import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/login.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/logout.dart';
@@ -27,8 +27,6 @@ class LoginBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
           },
           (data) {
             emit(LoginSuccessState(user: data));
-            secureStorage.persistenToken(data.refreshToken!);
-            secureStorage.persistenId(data.uuid!);
           },
         );
       },
@@ -58,7 +56,6 @@ class LogoutBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   LogoutBloc({required this.logout}) : super(AuthenticationInitialState()) {
     on<LogoutSubmitted>((event, emit) async {
       emit(LoadingState());
-      await secureStorage.deleteSecureStorage();
       await logout.execute();
       emit(LogoutSuccessState());
     });

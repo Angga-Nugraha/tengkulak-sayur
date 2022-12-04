@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
+import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
-import 'package:tengkulak_sayur/presentation/widgets/cutom_appbar.dart';
+import 'package:tengkulak_sayur/presentation/widgets/search_bar.dart';
 import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppbar(),
+            const Searchbar(),
             Expanded(
               child: SizedBox(
                 height: double.infinity,
@@ -86,7 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     subtitle:
                                         'Produk bebas pestisida dan bahan kimia',
                                     trailing: 'Lihat semua >',
-                                    onTap: () {},
+                                    onTap: () {
+                                      final category = organik[0].category;
+                                      Navigator.pushNamed(
+                                          context, detailCategoryPageRoute,
+                                          arguments: category);
+                                    },
                                   ),
                                   _listProduct(organik),
                                   _buildSubHeading(
@@ -94,7 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     subtitle:
                                         'Produk bebas pestisida dan bahan kimia',
                                     trailing: 'Lihat semua >',
-                                    onTap: () {},
+                                    onTap: () {
+                                      final category = nonorganik[0].category;
+                                      Navigator.pushNamed(
+                                          context, detailCategoryPageRoute,
+                                          arguments: category);
+                                    },
                                   ),
                                   _listProduct(nonorganik),
                                 ],

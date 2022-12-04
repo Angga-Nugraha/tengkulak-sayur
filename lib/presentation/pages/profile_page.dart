@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/helpers.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({required this.uuid, super.key});
@@ -16,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   static const baseUrl = "http://10.0.2.2:5000/user";
+  static bool checkImage = false;
   @override
   void initState() {
     Future.microtask(
@@ -25,14 +28,17 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  final menu = [
+    {'title': 'Edit Profile', 'icon': const Icon(Icons.people)},
+    {'title': 'Logout', 'icon': const Icon(Icons.logout)}
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LogoutBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is LoadingState) {
-          const Center(
-            child: CircularProgressIndicator(),
-          );
+          myLoading(context, 'Logout...');
         } else if (state is LogoutSuccessState) {
           Navigator.pushReplacementNamed(context, loginPageRoute);
         } else if (state is AuthenticationErrorState) {
@@ -42,15 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Profile'),
-          centerTitle: true,
+          // title: const Text('PROFIL'),
           actions: [
-            IconButton(
-              onPressed: () {
-                context.read<LogoutBloc>().add(LogoutSubmitted());
-              },
-              icon: const Icon(Icons.logout),
-            ),
+            actions(),
           ],
         ),
         body: SafeArea(
@@ -61,29 +61,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is SetUserState) {
-                final user = state.result;
+                var user = state.result;
+                checkImage = user.image?.isEmpty ?? true;
+
                 return SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.8,
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    color: Colors.white.withOpacity(0.8),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: <Widget>[
-                          Center(
-                            child: Stack(
+                  height: MediaQuery.of(context).size.width * 0.5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Stack(
                               alignment: Alignment.bottomRight,
                               children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage: NetworkImage(
-                                    '$baseUrl/${user.image}',
-                                  ),
-                                ),
+                                checkImage
+                                    ? const CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: AssetImage(
+                                          'assets/img/person.png',
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                          '$baseUrl/${user.image}',
+                                        ),
+                                      ),
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(
@@ -94,38 +98,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            user.name,
-                            style: const TextStyle(
-                              fontSize: 25,
+                            const SizedBox(
+                              width: 20,
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          _buildSubtitle(title: user.email, icon: Icons.email),
-                          const SizedBox(height: 10),
-                          _buildSubtitle(
-                              title: user.addres,
-                              icon: Icons.location_on_outlined),
-                          const SizedBox(height: 30),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(200, 20),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.name,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                  ),
                                 ),
-                              ),
-                              child: const Text(
-                                'Edit',
-                                style: TextStyle(fontSize: 18),
-                              ),
+                                const SizedBox(height: 10),
+                                _buildSubtitle(
+                                    title: user.email, icon: Icons.email),
+                                const SizedBox(height: 10),
+                                _buildSubtitle(
+                                    title: user.addres,
+                                    icon: Icons.location_on_outlined),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -141,6 +137,39 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  PopupMenuButton<String> actions() {
+    return PopupMenuButton(
+        color: backgroundColor,
+        onSelected: choiceAction,
+        itemBuilder: (context) {
+          return menu.map((e) {
+            return PopupMenuItem<String>(
+                value: e['title'].toString(),
+                child: ListTile(
+                    leading: e['icon'] as Widget,
+                    title: Text(e['title'].toString())));
+          }).toList();
+        });
+  }
+
+  void choiceAction(String value) {
+    if (value == 'Logout') {
+      myDialog(
+          context: context,
+          title: 'Anda Yakin Keluar',
+          textButton1: 'Yes',
+          textButton2: 'No',
+          onPressed1: () {
+            context.read<LogoutBloc>().add(LogoutSubmitted());
+          },
+          onPressed2: () {
+            Navigator.pop(context);
+          });
+    } else if (value == 'Edit Profile') {
+      print('context');
+    }
+  }
+
   Row _buildSubtitle({required String title, required IconData icon}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -149,6 +178,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Text(
           '  $title',
           style: kHeading6,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
         ),
       ],
     );

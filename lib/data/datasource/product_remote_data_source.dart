@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:tengkulak_sayur/data/helper/preferences_helper.dart';
+import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/models/product_model.dart';
 import 'package:tengkulak_sayur/data/models/product_response.dart';
 
@@ -22,7 +22,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getAllProducts() async {
     final token = await secureStorage.readToken();
-
     final response = await client.get(Uri.parse('$_baseUrl/product'),
         headers: {'authorization': 'Bearer $token'});
     if (response.statusCode == 200) {

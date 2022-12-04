@@ -14,7 +14,7 @@ import 'package:tengkulak_sayur/presentation/pages/auth_page/login_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/auth_page/signup_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
-import 'package:tengkulak_sayur/presentation/pages/root_screen.dart';
+import 'package:tengkulak_sayur/presentation/widgets/bottom_navbar.dart';
 import 'package:tengkulak_sayur/presentation/pages/search_page.dart';
 
 import 'package:tengkulak_sayur/presentation/widgets/splash_screen.dart';

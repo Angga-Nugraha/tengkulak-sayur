@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tengkulak_sayur/data/helper/preferences_helper.dart';
+import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/presentation/widgets/start_page.dart';
 

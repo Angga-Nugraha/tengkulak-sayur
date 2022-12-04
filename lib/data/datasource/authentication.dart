@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import "package:http/http.dart" as http;
-import 'package:tengkulak_sayur/data/helper/preferences_helper.dart';
+import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/models/user_model.dart';
 import 'package:tengkulak_sayur/data/utils/exception.dart';
 
@@ -29,6 +29,9 @@ class AuthenticationImpl implements Authentication {
         Map<String, dynamic>.from(json.decode(response.body));
 
     if (response.statusCode == 200) {
+      await secureStorage.persistenToken(data['data']['refresh_token']);
+      await secureStorage.persistenId(data['data']['uuid']);
+
       return UserModel.fromJson(data['data']);
     } else if (response.statusCode == 400) {
       throw data['msg'];
@@ -87,11 +90,12 @@ class AuthenticationImpl implements Authentication {
   @override
   Future<String?> logout() async {
     final token = await secureStorage.readToken();
-    final response = await client.delete(Uri.parse('$_baseUrl/logout'),
-        headers: {'authorization': 'Bearer $token'});
+    final response = await client
+        .delete(Uri.parse('$_baseUrl/logout'), headers: {'cookie': '$token'});
     Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
     if (response.statusCode == 200) {
+      await secureStorage.deleteSecureStorage();
       return data['msg'];
     } else {
       throw ServerException();

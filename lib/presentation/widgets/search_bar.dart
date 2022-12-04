@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 
-class CustomAppbar extends StatelessWidget {
-  const CustomAppbar({
+class Searchbar extends StatelessWidget {
+  const Searchbar({
     Key? key,
   }) : super(key: key);
 

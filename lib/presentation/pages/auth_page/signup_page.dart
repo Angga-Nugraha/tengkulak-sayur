@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
-import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/helpers.dart';
 import 'package:tengkulak_sayur/presentation/widgets/my_textfield.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -28,11 +28,46 @@ class _SignUpPageState extends State<SignUpPage> {
       body: BlocListener<AddUserBloc, UserState>(
         listener: (context, state) {
           if (state is UserLoadingState) {
-            const CircularProgressIndicator();
+            myLoading(context, 'Checking...');
           } else if (state is UserErrorState) {
-            _myDialog(context, state.message);
+            Navigator.pop(context);
+            myDialog(
+                context: context,
+                title: state.message,
+                textButton1: '',
+                textButton2: 'OK',
+                onPressed1: () {},
+                onPressed2: () {
+                  if (state.message == 'Email sudah terdaftar') {
+                    _emailControler.clear();
+                  }
+                  if (state.message ==
+                      'Password dan ConfPassword tidak cocok') {
+                    _passwordControler.clear();
+                    _confPasswordControler.clear();
+                  }
+                  if (state.message == 'Registrasi berhasil') {
+                    _nameControler.clear();
+                    _emailControler.clear();
+                    _passwordControler.clear();
+                    _confPasswordControler.clear();
+                    _addresControler.clear();
+                  }
+                  Navigator.pop(context);
+                });
           } else if (state is UserSuccessState) {
-            _myDialog(context, 'Registrasi berhasil');
+            Navigator.pop(context);
+            myDialog(
+                context: context,
+                title: "Registrasi Berhasil",
+                textButton1: 'OK',
+                textButton2: 'Login',
+                onPressed1: () {
+                  Navigator.pop(context);
+                },
+                onPressed2: () {
+                  Navigator.pushNamed(context, loginPageRoute);
+                });
           }
         },
         child: SafeArea(
@@ -86,8 +121,28 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(height: 40),
                     ElevatedButton(
                       onPressed: () async {
-                        if (_nameControler.text == '') {
-                          _myDialog(context, 'Field tidak boleh kosong');
+                        if (_nameControler.text == '' ||
+                            _emailControler.text == '' ||
+                            _passwordControler.text == '' ||
+                            _confPasswordControler.text == '' ||
+                            _addresControler.text == '') {
+                          myDialog(
+                            context: context,
+                            title: 'Field tidak boleh kosong',
+                            textButton1: 'OK',
+                            textButton2: 'Cancel',
+                            onPressed1: () {
+                              Navigator.pop(context);
+                            },
+                            onPressed2: () {
+                              _nameControler.clear();
+                              _emailControler.clear();
+                              _passwordControler.clear();
+                              _confPasswordControler.clear();
+                              _addresControler.clear();
+                              Navigator.pop(context);
+                            },
+                          );
                         } else {
                           context.read<AddUserBloc>().add(
                                 SignUpButtonSubmitted(
@@ -146,47 +201,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> _myDialog(BuildContext context, state) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Text(
-          state,
-          style: kHeading6,
-          textAlign: TextAlign.center,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, loginPageRoute);
-            },
-            child: const Text('Login'),
-          ),
-          TextButton(
-            onPressed: () {
-              if (state == 'Email sudah terdaftar') {
-                _emailControler.clear();
-              }
-              if (state == 'Password dan ConfPassword tidak cocok') {
-                _passwordControler.clear();
-                _confPasswordControler.clear();
-              }
-              if (state == 'Registrasi berhasil') {
-                _nameControler.clear();
-                _emailControler.clear();
-                _passwordControler.clear();
-                _confPasswordControler.clear();
-                _addresControler.clear();
-              }
-              Navigator.pop(context);
-            },
-            child: const Text('Ok'),
-          ),
-        ],
       ),
     );
   }
