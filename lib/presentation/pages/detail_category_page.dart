@@ -70,7 +70,10 @@ class _DetailCategoryState extends State<DetailCategory> {
               physics: const BouncingScrollPhysics(),
               itemCount: product.length,
               itemBuilder: (context, index) {
-                return ProductCard(products: product[index]);
+                return ProductCard(
+                  products: product[index],
+                  textButton: 'Tambah',
+                );
               },
             );
           } else {

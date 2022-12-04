@@ -1,4 +1,4 @@
-part of 'helpers.dart';
+part of 'components_helpers.dart';
 
 void myDialog(
     {required BuildContext context,

@@ -8,15 +8,17 @@ class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
     required this.products,
+    required this.textButton,
   }) : super(key: key);
 
   final Product products;
+  final String textButton;
   static const _baseUrl = "http://10.0.2.2:5000/images";
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white.withOpacity(0.8),
+      color: backgroundColor,
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Column(
         children: [
@@ -28,69 +30,71 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    child: CachedNetworkImage(
-                      height: 70,
-                      width: 100,
-                      fit: BoxFit.contain,
-                      imageUrl: '$_baseUrl/${products.image}',
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(15),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      child: CachedNetworkImage(
+                        height: 70,
+                        width: 100,
+                        fit: BoxFit.contain,
+                        imageUrl: '$_baseUrl/${products.image}',
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 70,
-                    width: 100,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      textDirection: TextDirection.ltr,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            products.title,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
+                  Expanded(
+                    child: SizedBox(
+                      height: 70,
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              products.title,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
                             ),
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        Card(
-                          color: processColor,
-                          child: Text(
-                            'Discount ${(products.discount * 100).toString()} %',
-                            style: kBodyText,
+                          Expanded(
+                            child: Card(
+                              color: processColor,
+                              child: Text(
+                                'Discount ${(products.discount * 100).toString()} %',
+                                style: kButtonText,
+                              ),
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Text(
+                          Text(
                             'Rp.${products.price}',
                             style: kHeading6,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
           Expanded(
             child: ElevatedButton(
               onPressed: () {},
-              child: const Text(
-                'Tambah',
-                style: TextStyle(
+              child: Text(
+                textButton,
+                style: const TextStyle(
                   fontSize: 10,
                   color: Colors.white,
                 ),

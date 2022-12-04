@@ -38,15 +38,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: SizedBox(
                 height: double.infinity,
                 child: ListView(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(15.0),
                   children: [
                     const SizedBox(height: 10),
                     Column(
                       children: [
                         Container(
                           height: 200,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: const DecorationImage(
                                 image: AssetImage("assets/img/banner.png"),
                                 fit: BoxFit.fill),
                           ),
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _buildSubHeading(
                                     title: 'Rekomendasi',
                                     subtitle:
-                                        'Suplier petani dari hasil bumi pilihan',
+                                        'Kami rekomendasikan produk yang cukup popular saat ini',
                                     trailing: 'Lihat semua >',
                                     onTap: () {},
                                   ),
@@ -97,8 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _listProduct(organik),
                                   _buildSubHeading(
                                     title: 'Sayur Non-Organik',
-                                    subtitle:
-                                        'Produk bebas pestisida dan bahan kimia',
+                                    subtitle: 'Produk dengan kualitas terbaik',
                                     trailing: 'Lihat semua >',
                                     onTap: () {
                                       final category = nonorganik[0].category;
@@ -140,7 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
         itemCount: product.length,
         itemBuilder: (context, index) {
           final products = product[index];
-          return ProductCard(products: products);
+          return ProductCard(
+            products: products,
+            textButton: 'Tambah',
+          );
         },
       ),
     );
@@ -152,20 +155,18 @@ class _MyHomePageState extends State<MyHomePage> {
       required trailing,
       required Function() onTap}) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline5,
+        style: kTitle,
       ),
       subtitle: Text(
         subtitle,
-        style: kSubtitle,
+        style: kBodyText,
       ),
-      trailing: InkWell(
-        onTap: onTap,
-        child: Text(
-          trailing,
-          style: kButtonText,
-        ),
+      trailing: TextButton(
+        onPressed: onTap,
+        child: const Text('See all...'),
       ),
     );
   }

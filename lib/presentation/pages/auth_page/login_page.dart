@@ -5,8 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
-import 'package:tengkulak_sayur/presentation/pages/components/helpers.dart';
-import 'package:tengkulak_sayur/presentation/widgets/my_textfield.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,11 +21,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
       body: BlocListener<LoginBloc, AuthenticationState>(
         listener: (context, state) {
           if (state is LoadingState) {
-            myLoading(context, 'Checking...');
+            myLoading(context, 'Signing in...');
           } else if (state is AuthenticationErrorState) {
             Navigator.pop(context);
             myDialog(
@@ -53,24 +52,36 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 const SizedBox(height: 30),
                 SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: Lottie.asset(
-                      'assets/img/login.json',
-                    )),
+                  height: 150,
+                  width: 150,
+                  child: Lottie.asset(
+                    'assets/img/login.json',
+                  ),
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 10),
                   child: Column(
                     children: [
-                      const SizedBox(height: 50),
-                      MyTextField(
+                      const SizedBox(height: 30),
+                      const Text(
+                        'Welcome to Tengkulak Sayur',
+                        style: TextStyle(
+                            fontFamily: 'Firasans',
+                            fontSize: 25,
+                            color: foregroundColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const Text('Sign in to your account'),
+                      const SizedBox(height: 30),
+                      myTextfield(
                         controller: _emailControler,
                         hintText: 'Email',
                         icon: Icons.email,
                         type: TextInputType.emailAddress,
                       ),
                       const SizedBox(height: 30),
-                      MyTextField(
+                      myTextfield(
                         controller: _passwordControler,
                         hintText: 'Password',
                         icon: Icons.lock,
@@ -83,7 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                           const TextSpan(
                             text: 'Need an account?',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: primaryColor,
+                              fontSize: 12,
                             ),
                           ),
                           const WidgetSpan(
@@ -94,7 +106,8 @@ class _LoginPageState extends State<LoginPage> {
                           TextSpan(
                             text: 'Register here !',
                             style: const TextStyle(
-                              color: Colors.white,
+                              fontSize: 12,
+                              color: foregroundColor,
                               fontWeight: FontWeight.w500,
                               decoration: TextDecoration.underline,
                             ),
@@ -105,8 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ]),
                       ),
-                      // message,
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
                           if (_emailControler.text == '') {
@@ -132,7 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor: foregroundColor,
+                          foregroundColor: backgroundColor,
                           minimumSize: const Size(120, 40),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
@@ -141,10 +154,9 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           'Login',
                           style:
-                              TextStyle(fontSize: 20, color: foregroundColor),
+                              TextStyle(fontSize: 20, color: backgroundColor),
                         ),
                       ),
-                      const SizedBox(height: 50),
                     ],
                   ),
                 )

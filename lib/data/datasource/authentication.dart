@@ -9,8 +9,9 @@ abstract class Authentication {
   Future<UserModel> login(String email, String password);
   Future<UserModel> signUp(String name, String email, String password,
       String confPassword, String addres);
-  Future<UserModel> getUserById(String uuid);
   Future<String?> logout();
+  Future<UserModel> getUserById(String uuid);
+  Future<String> deleteUser();
 }
 
 class AuthenticationImpl implements Authentication {
@@ -68,6 +69,21 @@ class AuthenticationImpl implements Authentication {
   }
 
   @override
+  Future<String?> logout() async {
+    final token = await secureStorage.readToken();
+    final response = await client
+        .delete(Uri.parse('$_baseUrl/logout'), headers: {'cookie': '$token'});
+    Map<String, dynamic> data =
+        Map<String, dynamic>.from(json.decode(response.body));
+    if (response.statusCode == 200) {
+      await secureStorage.deleteSecureStorage();
+      return data['msg'];
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
   Future<UserModel> getUserById(String uuid) async {
     final token = await secureStorage.readToken();
     final response = await client.get(Uri.parse('$_baseUrl/users/$uuid'),
@@ -88,10 +104,11 @@ class AuthenticationImpl implements Authentication {
   }
 
   @override
-  Future<String?> logout() async {
+  Future<String> deleteUser() async {
     final token = await secureStorage.readToken();
-    final response = await client
-        .delete(Uri.parse('$_baseUrl/logout'), headers: {'cookie': '$token'});
+    final uuid = await secureStorage.readId();
+    final response = await client.delete(Uri.parse('$_baseUrl/users/$uuid'),
+        headers: {'authorization': 'Bearer $token'});
     Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
     if (response.statusCode == 200) {

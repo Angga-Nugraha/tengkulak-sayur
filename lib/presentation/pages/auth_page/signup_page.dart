@@ -5,8 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:tengkulak_sayur/data/utils/common/color.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
-import 'package:tengkulak_sayur/presentation/pages/components/helpers.dart';
-import 'package:tengkulak_sayur/presentation/widgets/my_textfield.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -24,11 +23,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
       body: BlocListener<AddUserBloc, UserState>(
         listener: (context, state) {
           if (state is UserLoadingState) {
-            myLoading(context, 'Checking...');
+            myLoading(context, 'Register...');
           } else if (state is UserErrorState) {
             Navigator.pop(context);
             myDialog(
@@ -85,40 +84,50 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    MyTextField(
+                    const Text(
+                      'Let\'s Join with us...',
+                      style: TextStyle(
+                          fontFamily: 'Firasans',
+                          fontSize: 25,
+                          color: foregroundColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Text('Create your account'),
+                    const SizedBox(height: 20),
+                    myTextfield(
                       controller: _nameControler,
                       hintText: "Name",
                       icon: Icons.person,
                       type: TextInputType.name,
                     ),
                     const SizedBox(height: 20),
-                    MyTextField(
+                    myTextfield(
                       controller: _emailControler,
                       hintText: "Email",
                       icon: Icons.email,
                       type: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 20),
-                    MyTextField(
+                    myTextfield(
                         controller: _passwordControler,
                         hintText: "Password",
                         icon: Icons.lock,
                         type: TextInputType.visiblePassword,
                         obscure: true),
                     const SizedBox(height: 20),
-                    MyTextField(
+                    myTextfield(
                         controller: _confPasswordControler,
                         hintText: "Confirm password",
                         icon: Icons.lock,
                         type: TextInputType.visiblePassword,
                         obscure: true),
                     const SizedBox(height: 20),
-                    MyTextField(
+                    myTextfield(
                         controller: _addresControler,
                         hintText: "Address",
                         icon: Icons.location_on,
                         type: TextInputType.text),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         if (_nameControler.text == '' ||
@@ -156,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: foregroundColor,
                         minimumSize: const Size(120, 40),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -164,7 +173,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: const Text(
                         'SignUp',
-                        style: TextStyle(fontSize: 20, color: foregroundColor),
+                        style: TextStyle(fontSize: 20, color: backgroundColor),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -172,9 +181,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       text: TextSpan(children: [
                         const TextSpan(
                           text: 'Have an account?',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                          style: TextStyle(color: primaryColor, fontSize: 12),
                         ),
                         const WidgetSpan(
                           child: SizedBox(
@@ -184,7 +191,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         TextSpan(
                           text: 'Login here !',
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: foregroundColor,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.underline,
                           ),

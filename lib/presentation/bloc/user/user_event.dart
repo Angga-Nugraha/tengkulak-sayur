@@ -32,3 +32,10 @@ class SetUserById extends UserEvent {
   @override
   List<Object?> get props => [uuid];
 }
+
+class DeleteAccount extends UserEvent {
+  const DeleteAccount();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -108,7 +108,10 @@ class _SearchPageState extends State<SearchPage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: result.length,
                         itemBuilder: (context, index) {
-                          return ProductCard(products: result[index]);
+                          return ProductCard(
+                            products: result[index],
+                            textButton: 'Tambah',
+                          );
                         },
                       ),
                     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark));
     return MultiProvider(
       providers: [
         BlocProvider(create: (_) => di.locator<ProductBloc>()),
@@ -38,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.locator<SearchProductBloc>()),
         BlocProvider(create: (_) => di.locator<AddUserBloc>()),
         BlocProvider(create: (_) => di.locator<GetUserBloc>()),
+        BlocProvider(create: (_) => di.locator<DeleteUserBloc>()),
         BlocProvider(create: (_) => di.locator<LoginBloc>()),
         BlocProvider(create: (_) => di.locator<LogoutBloc>()),
         BlocProvider(create: (_) => di.locator<CheckInLoginBloc>()),

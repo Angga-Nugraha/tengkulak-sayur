@@ -69,4 +69,18 @@ class AuthRepositositoryImpl implements AuthRepository {
       return Left(CommonFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> deleteUser() async {
+    try {
+      final result = await authentication.deleteUser();
+      return Right(result);
+    } on ServerException {
+      throw '';
+    } on SocketException {
+      throw 'Failed to connect to the network';
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }
