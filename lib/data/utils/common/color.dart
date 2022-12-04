@@ -20,10 +20,10 @@ ThemeData myTheme = ThemeData(
     backgroundColor: foregroundColor,
     unselectedItemColor: primaryColor,
   ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: foregroundColor,
-      minimumSize: const Size(100.0, 20.0),
-    ),
-  ),
+  // elevatedButtonTheme: ElevatedButtonThemeData(
+  //   style: ElevatedButton.styleFrom(
+  //     backgroundColor: foregroundColor,
+  //     minimumSize: const Size(100.0, 20.0),
+  //   ),
+  // ),
 );

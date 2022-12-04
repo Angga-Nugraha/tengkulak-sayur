@@ -5,4 +5,3 @@ import 'package:tengkulak_sayur/data/utils/common/text_style.dart';
 part 'loading.dart';
 part 'my_dialog.dart';
 part 'my_textfield.dart';
-part 'list_product.dart';
