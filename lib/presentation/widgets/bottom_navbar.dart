@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tengkulak_sayur/presentation/pages/profile_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
-import 'package:tengkulak_sayur/presentation/pages/third.dart';
+import 'package:tengkulak_sayur/presentation/pages/transaction_page.dart';
 
 class RootScreen extends StatefulWidget {
   final String uuid;
@@ -17,26 +17,26 @@ class _RootScreenState extends State<RootScreen> {
   List<Widget> _listWidget() => [
         const CategoryPage(),
         const MyHomePage(),
-        const ThirdPage(),
+        const TransactionPage(),
         ProfilePage(uuid: widget.uuid),
       ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
     const BottomNavigationBarItem(
       icon: Icon(Icons.dataset_outlined),
-      label: "Kategori",
+      label: "Category",
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.home_outlined),
-      label: 'Beranda',
+      label: 'Home',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.assignment_outlined),
-      label: 'Transaksi',
+      label: 'Transaction',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.account_circle_outlined),
-      label: 'Profil',
+      label: 'Account',
     ),
   ];
 

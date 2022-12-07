@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/data/utils/styles/color.dart';
-import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/common/utils/routes.dart';
 
 class Searchbar extends StatelessWidget {
   const Searchbar({

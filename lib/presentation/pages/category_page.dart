@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/common/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -26,8 +26,7 @@ class _SecondPageState extends State<CategoryPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: const Text('KATEGORI PRODUK'),
+        title: const Text('PRODUCT CATEGORY'),
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {

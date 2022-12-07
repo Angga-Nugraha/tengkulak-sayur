@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:tengkulak_sayur/data/utils/styles/color.dart';
-import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/common/utils/routes.dart';
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 

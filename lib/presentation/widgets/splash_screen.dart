@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
-import 'package:tengkulak_sayur/data/utils/styles/color.dart';
+import 'package:tengkulak_sayur/data/common/styles/color.dart';
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:tengkulak_sayur/presentation/pages/auth_page/login_page.dart';
 import 'package:tengkulak_sayur/presentation/widgets/bottom_navbar.dart';

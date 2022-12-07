@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:tengkulak_sayur/data/datasource/authentication.dart';
-import 'package:tengkulak_sayur/data/utils/exception.dart';
+import 'package:tengkulak_sayur/data/common/utils/exception.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
-import 'package:tengkulak_sayur/data/utils/failure.dart';
+import 'package:tengkulak_sayur/data/common/utils/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:tengkulak_sayur/domain/repositories/user_repository.dart';
 

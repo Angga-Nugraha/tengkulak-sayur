@@ -7,7 +7,7 @@ import 'package:tengkulak_sayur/data/models/product_cart_model.dart';
 import 'package:tengkulak_sayur/data/models/product_model.dart';
 import 'package:tengkulak_sayur/data/models/product_response.dart';
 
-import '../utils/exception.dart';
+import '../common/utils/exception.dart';
 
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
@@ -73,7 +73,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductCart>> getListcart() async {
     final cart = await databaseHelper.getListCart();
-    print(cart);
     return cart.map((e) => ProductCart.fromMap(e)).toList();
   }
 

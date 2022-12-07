@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tengkulak_sayur/data/utils/constant.dart';
-import 'package:tengkulak_sayur/data/utils/styles/color.dart';
-import 'package:tengkulak_sayur/data/utils/styles/text_style.dart';
-import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/common/utils/constant.dart';
+import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
+import 'package:tengkulak_sayur/data/common/utils/routes.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: const Text('My Profile'),
+            title: const Text('MY PROFILE'),
             actions: [
               actions(),
             ],

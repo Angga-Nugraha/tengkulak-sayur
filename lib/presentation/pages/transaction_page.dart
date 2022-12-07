@@ -1,31 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:tengkulak_sayur/data/utils/constant.dart';
+import 'package:tengkulak_sayur/data/common/utils/constant.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 
-class ThirdPage extends StatefulWidget {
-  const ThirdPage({super.key});
+class TransactionPage extends StatefulWidget {
+  const TransactionPage({super.key});
 
   @override
-  State<ThirdPage> createState() => _ThirdPageState();
+  State<TransactionPage> createState() => _TransactionPageState();
 }
 
-class _ThirdPageState extends State<ThirdPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => [
-          Provider.of<CartBloc>(context, listen: false).add(const GetAllCart()),
-        ]);
-  }
-
+class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Shopping Cart'),
+          automaticallyImplyLeading: false,
+          title: const Text('STORY TRANSACTION'),
         ),
         body: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
