@@ -10,7 +10,7 @@ ThemeData myTheme = ThemeData(
   colorScheme: ThemeData.light().colorScheme.copyWith(
         primary: foregroundColor,
         onPrimary: backgroundColor,
-        secondary: secondaryColor,
+        secondary: primaryColor,
       ),
   scaffoldBackgroundColor: backgroundColor,
   visualDensity: VisualDensity.adaptivePlatformDensity,

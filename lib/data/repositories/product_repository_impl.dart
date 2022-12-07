@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:tengkulak_sayur/data/models/product_cart_model.dart';
 import 'package:tengkulak_sayur/data/utils/exception.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/data/utils/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tengkulak_sayur/data/datasource/product_remote_data_source.dart';
+import 'package:tengkulak_sayur/data/datasource/product_data_source.dart';
 import 'package:tengkulak_sayur/domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
@@ -51,6 +52,34 @@ class ProductRepositoryImpl implements ProductRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     } catch (e) {
       return Left(CommonFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Product>>> getListCart() async {
+    final result = await productRemoteDataSource.getListcart();
+    return Right(result.map((e) => e.toEntity()).toList());
+  }
+
+  @override
+  Future<Either<Failure, String>> insertToCart(Product product) async {
+    try {
+      final result = await productRemoteDataSource
+          .insertToCart(ProductCart.fromEntity(product));
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> removeFromCart(Product product) async {
+    try {
+      final result = await productRemoteDataSource
+          .removeFromCart(ProductCart.fromEntity(product));
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
     }
   }
 }

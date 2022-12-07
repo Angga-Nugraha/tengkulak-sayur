@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tengkulak_sayur/data/utils/routes.dart';
+import 'package:tengkulak_sayur/data/utils/styles/text_style.dart';
+import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 
 import '../widgets/product_card.dart';
 
@@ -16,13 +20,16 @@ class DetailCategory extends StatefulWidget {
 class _DetailCategoryState extends State<DetailCategory> {
   @override
   void initState() {
-    Future.microtask(
-      () => Provider.of<CategoryProductBloc>(context, listen: false).add(
-        FetchCategoryProduct(widget.category),
-      ),
-    );
+    Future.microtask(() => [
+          Provider.of<CartBloc>(context, listen: false).add(const GetAllCart()),
+          Provider.of<CategoryProductBloc>(context, listen: false).add(
+            FetchCategoryProduct(widget.category),
+          ),
+        ]);
     super.initState();
   }
+
+  static int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +43,52 @@ class _DetailCategoryState extends State<DetailCategory> {
           },
         ),
         actions: [
-          IconButton(
-            color: Colors.white,
-            icon: const Icon(
-              Icons.shopping_cart_outlined,
-            ),
-            onPressed: () {},
+          Stack(
+            children: [
+              Container(
+                height: 15,
+                width: 15,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.red,
+                ),
+                child: Center(
+                  child: BlocConsumer<CartBloc, CartState>(
+                    listener: (context, state) {
+                      if (state is CartSuccessState) {
+                        mySnackbar(context: context, message: state.message);
+                      } else if (state is CartErrorState) {
+                        mySnackbar(context: context, message: state.message);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is CartHasData) {
+                        final length = state.product.length;
+                        count = length;
+                        return Text(
+                          length.toString(),
+                          style: kButtonText,
+                        );
+                      } else {
+                        return Text(
+                          count.toString(),
+                          style: kButtonText,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+              IconButton(
+                color: Colors.white,
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, cartPageRoute);
+                },
+              ),
+            ],
           ),
           IconButton(
             color: Colors.white,
@@ -70,9 +117,37 @@ class _DetailCategoryState extends State<DetailCategory> {
               physics: const BouncingScrollPhysics(),
               itemCount: product.length,
               itemBuilder: (context, index) {
-                return ProductCard(
-                  products: product[index],
-                  textButton: 'Tambah',
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 7,
+                        child: ProductCard(
+                          products: product[index],
+                        ),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<CartBloc>()
+                              ..add(InsertToCart(product: product[index]))
+                              ..add(const GetAllCart());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(100, 20),
+                          ),
+                          child: const Text(
+                            'Tambah',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

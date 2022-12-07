@@ -5,14 +5,16 @@ import 'package:provider/provider.dart';
 
 import 'package:tengkulak_sayur/data/utils/utils.dart';
 import 'package:tengkulak_sayur/data/utils/routes.dart';
-import 'package:tengkulak_sayur/data/utils/common/color.dart';
+import 'package:tengkulak_sayur/data/utils/styles/color.dart';
 
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
+import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
 
 import 'package:tengkulak_sayur/presentation/pages/auth_page/login_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/auth_page/signup_page.dart';
+import 'package:tengkulak_sayur/presentation/pages/cart_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/widgets/bottom_navbar.dart';
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.locator<ProductBloc>()),
         BlocProvider(create: (_) => di.locator<CategoryProductBloc>()),
         BlocProvider(create: (_) => di.locator<SearchProductBloc>()),
+        BlocProvider(create: (_) => di.locator<CartBloc>()),
         BlocProvider(create: (_) => di.locator<AddUserBloc>()),
         BlocProvider(create: (_) => di.locator<GetUserBloc>()),
         BlocProvider(create: (_) => di.locator<DeleteUserBloc>()),
@@ -54,6 +57,10 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
+            case cartPageRoute:
+              return MaterialPageRoute(
+                builder: (_) => const CartPage(),
+              );
             case splashScreenRoute:
               return MaterialPageRoute(
                 builder: (_) => const SplashScreen(),

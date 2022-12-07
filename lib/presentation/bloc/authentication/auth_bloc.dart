@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
+import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/login.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/logout.dart';
@@ -41,11 +42,16 @@ class CheckInLoginBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
       : super(AuthenticationInitialState()) {
     on<ReLogin>((event, emit) async {
       final uuid = await secureStorage.readId();
-
-      final auth = await getUserById.execute(uuid!);
-      auth.fold(
-          (failure) => emit(AuthenticationErrorState(message: failure.message)),
-          (data) => emit(LoginSuccessState(user: data)));
+      final token = await secureStorage.readToken();
+      try {
+        if (token!.isNotEmpty) {
+          final auth = await getUserById.execute(uuid!);
+          auth.fold(
+              (failure) => null, (data) => emit(LoginSuccessState(user: data)));
+        }
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     });
   }
 }

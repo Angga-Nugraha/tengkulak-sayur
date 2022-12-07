@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import "package:http/http.dart" as http;
-import 'package:tengkulak_sayur/data/storageHelper/secure_storage_helper.dart';
+import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/models/user_model.dart';
+import 'package:tengkulak_sayur/data/utils/constant.dart';
 import 'package:tengkulak_sayur/data/utils/exception.dart';
 
 abstract class Authentication {
@@ -15,14 +16,13 @@ abstract class Authentication {
 }
 
 class AuthenticationImpl implements Authentication {
-  static const _baseUrl = "http://10.0.2.2:5000";
   final http.Client client;
 
   AuthenticationImpl(this.client);
 
   @override
   Future<UserModel> login(String email, String password) async {
-    final response = await client.post(Uri.parse('$_baseUrl/login'),
+    final response = await client.post(Uri.parse('$baseUrl/login'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({"email": email, "password": password}));
 
@@ -46,7 +46,7 @@ class AuthenticationImpl implements Authentication {
   @override
   Future<UserModel> signUp(String name, String email, String password,
       String confPassword, String addres) async {
-    final response = await client.post(Uri.parse('$_baseUrl/register'),
+    final response = await client.post(Uri.parse('$baseUrl/register'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "name": name,
@@ -72,7 +72,7 @@ class AuthenticationImpl implements Authentication {
   Future<String?> logout() async {
     final token = await secureStorage.readToken();
     final response = await client
-        .delete(Uri.parse('$_baseUrl/logout'), headers: {'cookie': '$token'});
+        .delete(Uri.parse('$baseUrl/logout'), headers: {'cookie': '$token'});
     Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));
     if (response.statusCode == 200) {
@@ -86,7 +86,7 @@ class AuthenticationImpl implements Authentication {
   @override
   Future<UserModel> getUserById(String uuid) async {
     final token = await secureStorage.readToken();
-    final response = await client.get(Uri.parse('$_baseUrl/users/$uuid'),
+    final response = await client.get(Uri.parse('$baseUrl/users/$uuid'),
         headers: {'authorization': 'Bearer $token'});
 
     Map<String, dynamic> data =
@@ -107,7 +107,7 @@ class AuthenticationImpl implements Authentication {
   Future<String> deleteUser() async {
     final token = await secureStorage.readToken();
     final uuid = await secureStorage.readId();
-    final response = await client.delete(Uri.parse('$_baseUrl/users/$uuid'),
+    final response = await client.delete(Uri.parse('$baseUrl/users/$uuid'),
         headers: {'authorization': 'Bearer $token'});
     Map<String, dynamic> data =
         Map<String, dynamic>.from(json.decode(response.body));

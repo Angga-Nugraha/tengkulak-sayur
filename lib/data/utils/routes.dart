@@ -6,3 +6,4 @@ const signUpPageRoute = '/signUpPage';
 const rootScreenRoute = '/root_screen';
 const loginPageRoute = '/login_page';
 const splashScreenRoute = '/splash_screen';
+const cartPageRoute = '/cart_page';

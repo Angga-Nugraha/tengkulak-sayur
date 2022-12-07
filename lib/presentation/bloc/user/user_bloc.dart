@@ -53,8 +53,6 @@ class DeleteUserBloc extends Bloc<UserEvent, UserState> {
 
   DeleteUserBloc({required this.deleteUser}) : super(UserInitialState()) {
     on<DeleteAccount>((event, emit) async {
-      // final id = event.uuid;
-
       emit(UserLoadingState());
 
       final user = await deleteUser.execute();

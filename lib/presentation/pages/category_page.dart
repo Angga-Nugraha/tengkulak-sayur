@@ -62,7 +62,7 @@ class _SecondPageState extends State<CategoryPage> {
                       ),
                       child: Center(
                         child: Text(
-                          categories.elementAt(index),
+                          categories.elementAt(index)!,
                           style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -82,7 +82,9 @@ class _SecondPageState extends State<CategoryPage> {
               ),
             );
           } else {
-            return const Text('Failed');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
