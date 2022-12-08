@@ -10,6 +10,7 @@ void myDialog(
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       contentPadding: const EdgeInsets.all(5),
       content: Column(
         mainAxisSize: MainAxisSize.min,

@@ -195,6 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
   PopupMenuButton<String> actions() {
     return PopupMenuButton(
         color: backgroundColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onSelected: choiceAction,
         itemBuilder: (context) {
           return menu.map((e) {
