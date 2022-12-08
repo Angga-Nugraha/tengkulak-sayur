@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:async/async.dart';
+import 'package:path/path.dart' as path;
 
 import "package:http/http.dart" as http;
 import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
@@ -10,6 +13,8 @@ abstract class Authentication {
   Future<UserModel> login(String email, String password);
   Future<UserModel> signUp(String name, String email, String password,
       String confPassword, String addres);
+  Future<String> editUser(String name, String email, String password,
+      String confPassword, String addres, File? image);
   Future<String?> logout();
   Future<UserModel> getUserById(String uuid);
   Future<String> deleteUser();
@@ -114,6 +119,37 @@ class AuthenticationImpl implements Authentication {
     if (response.statusCode == 200) {
       await secureStorage.deleteSecureStorage();
       return data['msg'];
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<String> editUser(String name, String email, String password,
+      String confPassword, String addres, File? image) async {
+    final token = await secureStorage.readToken();
+    final uuid = await secureStorage.readId();
+    var stream = http.ByteStream(DelegatingStream(image!.openRead()));
+    var length = await image.length();
+
+    final request =
+        http.MultipartRequest('PATCH', Uri.parse('$baseUrl/users/$uuid'))
+          ..headers['authorization'] = 'Bearer $token'
+          ..fields['name'] = name
+          ..fields['email'] = email
+          ..fields['password'] = password
+          ..fields['confPassword'] = confPassword
+          ..fields['addres'] = addres
+          ..files.add(http.MultipartFile("file", stream, length,
+              filename: path.basename(image.path)));
+    final response = await request.send();
+    final resp = await http.Response.fromStream(response);
+    Map<String, dynamic> data =
+        Map<String, dynamic>.from(json.decode(resp.body));
+    if (response.statusCode == 200) {
+      return data['msg'];
+    } else if (response.statusCode == 404) {
+      throw data['msg'];
     } else {
       throw ServerException();
     }

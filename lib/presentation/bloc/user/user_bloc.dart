@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/add_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/delete_user.dart';
+import 'package:tengkulak_sayur/domain/usecases/user/edit_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/get_user_by_id.dart';
 
 part 'user_event.dart';
@@ -22,6 +25,29 @@ class AddUserBloc extends Bloc<UserEvent, UserState> {
 
       final auth =
           await signUp.execute(name, email, password, confPassword, addres);
+      auth.fold(
+        (failure) => emit(UserErrorState(message: failure.message)),
+        (data) => emit(UserSuccessState()),
+      );
+    });
+  }
+}
+
+class EditUserBloc extends Bloc<UserEvent, UserState> {
+  final EditUser editUser;
+
+  EditUserBloc({required this.editUser}) : super(UserInitialState()) {
+    on<EditUserSubmit>((event, emit) async {
+      final name = event.name;
+      final email = event.email;
+      final password = event.password;
+      final confPassword = event.confPassword;
+      final addres = event.addres;
+      final image = event.image;
+      emit(UserLoadingState());
+
+      final auth = await editUser.execute(
+          name, email, password, confPassword, addres, image);
       auth.fold(
         (failure) => emit(UserErrorState(message: failure.message)),
         (data) => emit(UserSuccessState()),

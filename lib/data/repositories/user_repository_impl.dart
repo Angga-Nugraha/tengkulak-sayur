@@ -83,4 +83,20 @@ class AuthRepositositoryImpl implements AuthRepository {
       return Left(CommonFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> editUser(String name, String email,
+      String password, String confPassword, String addres, File? image) async {
+    try {
+      final result = await authentication.editUser(
+          name, email, password, confPassword, addres, image);
+      return Right(result);
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }

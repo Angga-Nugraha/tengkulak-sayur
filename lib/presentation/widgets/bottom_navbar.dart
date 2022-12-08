@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/presentation/pages/profile_page.dart';
+import 'package:tengkulak_sayur/presentation/pages/profile_page/profile_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/category_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/transaction_page.dart';

@@ -97,32 +97,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     return Row(
                       children: [
                         Expanded(
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              checkImage
-                                  ? const CircleAvatar(
-                                      radius: 50,
-                                      backgroundImage: AssetImage(
-                                        'assets/img/person.png',
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      radius: 50,
-                                      backgroundImage: NetworkImage(
-                                        '$baseUrl/user/${user.image}',
-                                      ),
-                                    ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.white60,
-                                  size: 25,
+                          child: checkImage
+                              ? const CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: AssetImage(
+                                    'assets/img/person.png',
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(
+                                    '$baseUrl/user/${user.image}',
+                                    scale: 1.0,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
                         const SizedBox(
                           width: 20,
@@ -247,6 +235,9 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed2: () {
             Navigator.pop(context);
           });
+    } else {
+      Navigator.pushNamed(context, editProfilePageRoute,
+          arguments: widget.uuid);
     }
   }
 

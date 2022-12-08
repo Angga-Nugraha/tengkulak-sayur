@@ -11,6 +11,7 @@ import 'package:tengkulak_sayur/domain/usecases/auth/login.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/logout.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/add_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/delete_user.dart';
+import 'package:tengkulak_sayur/domain/usecases/user/edit_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/get_user_by_id.dart';
 import 'package:tengkulak_sayur/domain/usecases/product/add_to_cart.dart';
 import 'package:tengkulak_sayur/domain/usecases/product/get_list_cart.dart';
@@ -67,6 +68,9 @@ void init() {
   locator.registerFactory(
     () => DeleteUserBloc(deleteUser: locator()),
   );
+  locator.registerFactory(
+    () => EditUserBloc(editUser: locator()),
+  );
 
   // Usecase product
   locator.registerLazySingleton(() => GetAllProduct(locator()));
@@ -80,6 +84,7 @@ void init() {
   locator.registerLazySingleton(() => SignUp(locator()));
   locator.registerLazySingleton(() => GetUserById(locator()));
   locator.registerLazySingleton(() => DeleteUser(locator()));
+  locator.registerLazySingleton(() => EditUser(locator()));
 
   // Repositories
   locator.registerLazySingleton<ProductRepository>(

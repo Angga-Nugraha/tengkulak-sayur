@@ -24,6 +24,28 @@ class SignUpButtonSubmitted extends UserEvent {
   List<Object?> get props => [name, email, password, confPassword, addres];
 }
 
+class EditUserSubmit extends UserEvent {
+  final String name;
+  final String email;
+  final String password;
+  final String confPassword;
+  final String addres;
+  final File? image;
+
+  const EditUserSubmit({
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.confPassword,
+    required this.addres,
+    required this.image,
+  });
+
+  @override
+  List<Object?> get props =>
+      [name, email, password, confPassword, addres, image];
+}
+
 class SetUserById extends UserEvent {
   final String uuid;
 

@@ -16,6 +16,7 @@ import 'package:tengkulak_sayur/presentation/pages/auth_page/login_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/auth_page/signup_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/cart_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
+import 'package:tengkulak_sayur/presentation/pages/profile_page/edit_profile.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/widgets/bottom_navbar.dart';
 import 'package:tengkulak_sayur/presentation/pages/search_page.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.locator<SearchProductBloc>()),
         BlocProvider(create: (_) => di.locator<CartBloc>()),
         BlocProvider(create: (_) => di.locator<AddUserBloc>()),
+        BlocProvider(create: (_) => di.locator<EditUserBloc>()),
         BlocProvider(create: (_) => di.locator<GetUserBloc>()),
         BlocProvider(create: (_) => di.locator<DeleteUserBloc>()),
         BlocProvider(create: (_) => di.locator<LoginBloc>()),
@@ -60,6 +62,11 @@ class MyApp extends StatelessWidget {
             case cartPageRoute:
               return MaterialPageRoute(
                 builder: (_) => const CartPage(),
+              );
+            case editProfilePageRoute:
+              String uuid = settings.arguments as String;
+              return MaterialPageRoute(
+                builder: (_) => EditProfilePage(uuid: uuid),
               );
             case splashScreenRoute:
               return MaterialPageRoute(
