@@ -22,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   static bool checkImage = false;
-  static int id = 0;
   @override
   void initState() {
     Future.microtask(() => [
@@ -91,7 +90,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   } else if (state is SetUserState) {
                     var user = state.result;
-                    id = user.id;
                     checkImage = user.image?.isEmpty ?? true;
 
                     return Row(

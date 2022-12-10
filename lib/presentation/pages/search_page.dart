@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
+import 'package:tengkulak_sayur/data/common/utils/routes.dart';
+import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
 import 'package:tengkulak_sayur/presentation/widgets/product_card.dart';
 
@@ -14,7 +18,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<CartBloc>(context, listen: false).add(const GetAllCart()));
+  }
+
   TextEditingController textEditingController = TextEditingController();
+  var count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +82,45 @@ class _SearchPageState extends State<SearchPage> {
                 textInputAction: TextInputAction.search,
               ),
             ),
-            trailing: IconButton(
-              color: Colors.white,
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-              ),
-              onPressed: () {},
+            trailing: Stack(
+              children: [
+                Container(
+                  height: 15,
+                  width: 15,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.red,
+                  ),
+                  child: Center(
+                    child: BlocBuilder<CartBloc, CartState>(
+                      builder: (context, state) {
+                        if (state is CartHasData) {
+                          final length = state.product.length;
+                          count = length;
+                          return Text(
+                            length.toString(),
+                            style: kButtonText,
+                          );
+                        } else {
+                          return Text(
+                            count.toString(),
+                            style: kButtonText,
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                IconButton(
+                  color: Colors.white,
+                  icon: const Icon(
+                    Icons.shopping_cart_outlined,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, cartPageRoute);
+                  },
+                ),
+              ],
             ),
           ),
         ),

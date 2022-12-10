@@ -144,10 +144,7 @@ class _DetailCategoryState extends State<DetailCategory> {
               },
             );
           } else {
-            return const Text(
-              key: Key('error_message'),
-              'Failed',
-            );
+            return Container();
           }
         },
       ),
