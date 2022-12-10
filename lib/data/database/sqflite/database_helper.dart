@@ -43,6 +43,7 @@ class DatabaseHelper {
         title TEXT,
         image TEXT,
         price INTEGER,
+        userId INTEGER,
         quantity INTEGER
       );
       ''');

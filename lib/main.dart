@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import 'package:tengkulak_sayur/data/common/utils/utils.dart';
 import 'package:tengkulak_sayur/data/common/utils/routes.dart';
-import 'package:tengkulak_sayur/data/common/styles/color.dart';
 
 import 'package:tengkulak_sayur/presentation/bloc/authentication/auth_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
@@ -24,6 +23,7 @@ import 'package:tengkulak_sayur/presentation/pages/search_page.dart';
 
 import 'package:tengkulak_sayur/presentation/widgets/splash_screen.dart';
 
+import 'data/common/styles/color.dart';
 import 'injection.dart' as di;
 
 void main() {

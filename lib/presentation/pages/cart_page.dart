@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tengkulak_sayur/data/common/utils/constant.dart';
 import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
+import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
@@ -94,34 +95,37 @@ class _CartPageState extends State<CartPage> {
                           Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-                              ListTile(
-                                isThreeLine: true,
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 35),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide.none),
-                                leading: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.contain,
-                                    imageUrl:
-                                        '$baseUrl/images/${product.image}',
-                                    placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
+                              Material(
+                                child: ListTile(
+                                  isThreeLine: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 35),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide.none),
+                                  leading: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.contain,
+                                      imageUrl:
+                                          '$baseUrl/images/${product.image}',
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
                                   ),
-                                ),
-                                title: Text(
-                                  product.title,
-                                  style: kSubtitle,
-                                ),
-                                subtitle: Text(
-                                  'Rp.${product.price.toString()}',
-                                  style: kBodyText,
+                                  title: Text(
+                                    product.title,
+                                    style: kSubtitle,
+                                  ),
+                                  subtitle: Text(
+                                    'Rp.${product.price.toString()}',
+                                    style: kBodyText,
+                                  ),
                                 ),
                               ),
                               Positioned(
@@ -233,7 +237,7 @@ class _CartPageState extends State<CartPage> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (selectedProduct.isEmpty) {
                         myDialog(
                           context: context,
@@ -247,6 +251,23 @@ class _CartPageState extends State<CartPage> {
                           },
                         );
                       }
+                      final product = [];
+
+                      final user = await secureStorage.readId();
+                      product.add({"user": user});
+                      for (var i = 0; i < selectedProduct.length; i++) {
+                        product.add({
+                          "product": {
+                            "id": selectedProduct[i].id,
+                            "title": selectedProduct[i].title,
+                            "price": selectedProduct[i].price,
+                            "quantity": selectedProduct[i].quantity,
+                            // "userId": selectedProduct[i].userId,
+                          }
+                        });
+                      }
+                      product.add({"totalAmount": totalAmount});
+                      print(product);
                     },
                     child: const Text('Checkout'),
                   ),

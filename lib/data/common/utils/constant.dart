@@ -1,1 +1,2 @@
-const baseUrl = "http://10.0.2.2:5000";
+const baseUrl =
+    "https://tengkulak-sayur-backend-production-588a.up.railway.app";

@@ -169,9 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is ProductHasDataState) {
-                    final product = state.result
-                        .where((element) => element.userId == id)
-                        .toList();
+                    final product = state.result;
                     if (product.isEmpty) {
                       return const Text('You don\'t have an product');
                     } else {

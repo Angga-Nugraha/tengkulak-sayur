@@ -14,7 +14,6 @@ class Product extends Equatable {
     required this.category,
     required this.image,
     required this.imageUrl,
-    required this.userId,
     required this.createdAt,
     required this.updatedAt,
     this.quantity = 0,
@@ -37,11 +36,10 @@ class Product extends Equatable {
   double? discount;
   double? ratting;
   int? stock;
-  int? weight;
+  String? weight;
   String? category;
   final String image;
   String? imageUrl;
-  int? userId;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -59,7 +57,6 @@ class Product extends Equatable {
         category,
         image,
         imageUrl,
-        userId,
         createdAt,
         updatedAt,
       ];

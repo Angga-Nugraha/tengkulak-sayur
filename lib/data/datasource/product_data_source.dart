@@ -21,7 +21,7 @@ abstract class ProductRemoteDataSource {
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
-  static const _baseUrl = "http://10.0.2.2:5000";
+  // static const baseUrl = "http://10.0.2.2:5000";
   final http.Client client;
 
   ProductRemoteDataSourceImpl(this.client);
@@ -29,7 +29,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getAllProducts() async {
     final token = await secureStorage.readToken();
-    final response = await client.get(Uri.parse('$_baseUrl/product'),
+    final response = await client.get(Uri.parse('$baseUrl/product'),
         headers: {'authorization': 'Bearer $token'});
 
     Map<String, dynamic> data =
@@ -48,7 +48,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   Future<List<ProductModel>> searchProduct(String query) async {
     final token = await secureStorage.readToken();
     final response = await client.get(
-        Uri.parse('$_baseUrl/search/product?search=$query'),
+        Uri.parse('$baseUrl/search/product?search=$query'),
         headers: {'authorization': 'Bearer $token'});
     if (response.statusCode == 200) {
       return ProductResponse.fromJson(json.decode(response.body)).productList;
@@ -64,7 +64,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final token = await secureStorage.readToken();
 
     final response = await client.get(
-        Uri.parse('$_baseUrl/product/category/$query'),
+        Uri.parse('$baseUrl/product/category/$query'),
         headers: {'authorization': 'Bearer $token'});
 
     if (response.statusCode == 200) {

@@ -22,7 +22,6 @@ class ProductModel extends Equatable {
     required this.category,
     required this.image,
     required this.imageUrl,
-    required this.userId,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -35,11 +34,10 @@ class ProductModel extends Equatable {
   final double? discount;
   final double ratting;
   final int stock;
-  final int weight;
+  final String weight;
   final String category;
   final String image;
   final String imageUrl;
-  final int userId;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -57,7 +55,6 @@ class ProductModel extends Equatable {
         category: json["category"],
         image: json["image"],
         imageUrl: json["image_url"],
-        userId: json["userId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
@@ -75,7 +72,6 @@ class ProductModel extends Equatable {
         "category": category,
         "image": image,
         "image_url": imageUrl,
-        "userId": userId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
@@ -95,7 +91,6 @@ class ProductModel extends Equatable {
       category: category,
       image: image,
       imageUrl: imageUrl,
-      userId: userId,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -115,7 +110,6 @@ class ProductModel extends Equatable {
         category,
         image,
         imageUrl,
-        userId,
         createdAt,
         updatedAt,
       ];
