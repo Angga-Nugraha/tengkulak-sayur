@@ -1,16 +1,9 @@
 # tengkulak_sayur
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Dalam sektor pertanian, teknologi juga diperlukan untuk mempermudah pekerjaan yang berkaitan dengan hal tersebut dibarengi dengan adanya internet, kita dapat membuat solusi menggunakan teknologi sehingga dapat lebih efisien, salah satunya seperti grosir sayur, sistem e-commerce ini memberikan kemudahan kepada produsen sayur dan pemasok sayur untuk melakukan transaksi pengiriman grosir sayur. 
+tengkulak.sayur membantu para produsen sayur dan pemasok sayur dalam permasalahan pengiriman grosir sayur. Yang dimana kita mengetahui selama ini bahwa untuk membeli barang grosir khususnya hasil bumi yang disini berupa sayur mayur yang banyak, harus datang langsung ke tempat petani pada subuh hari untuk bisa mendapatkan sayuran segar dan cukup memakan banyak waktu karena harus menunggu pemasok lain bertransaksi sembari menunggu transaksinya, selain itu waktu perjalanan yang tentunya tidak singkat karena mengirim paket sayur-sayur ini dari desa ke kota. Sistem ini menggunakan internet sehingga pengguna bisa mengakses dari rumah dan mengetahui jadwal pengiriman dari yang telah ditetapkan. Aplikasi yang dibuat diharap dapat membantu produsen sayur dan pemasok sayur lebih mudah dan menghemat waktu mereka untuk digunakan mengerjakan pekerjaan lain pada bisnis mereka. Oleh karena itu, kami memilih untuk mengembangkan dan membuat aplikasi e-commerce khusus penyedia produk sayuran ini.
+Pemasok sayur di Indonesia yang ingin mencari atau menyuplai bahkan membeli sayur yang segar lewat platform online pada aplikasi e-commerce berbasis aplikasi. Dikarenakan dampak pandemi yang sampai sekarang masih mempengaruhi kebiasaan masyarakat Indonesia dalam berkegiatan khususnya pada layanan jasa pengantaran/pengiriman barang. Dalam kasus ini para pemasok dagangan khususnya sayuran segar dan juga beberapa kedai ataupun kios atau restoran ketika akan membeli sayuran grosiran yang mengharuskan pegawainya datang langsung pada produsen sayur tersebut menginginkan cara yang lebih efisien dan karena sebelumnya telah terdampak efek pandemi ini yang semuanya serba online. Dampak yang diberikan oleh pandemi waktu lalu telah mengubah kebiasaan masyarakat yang awalnya serba offline sekarang menjadi serba online dan sebagian besar masyarakat sudah nyaman berada dalam kondisi tersebut sehingga sekarang kebanyakan aktivitas dilakukan dirumah saja atau di kios saja atau sejenisnya. 
+tengkulak.sayur membantu para produsen sayur dan pemasok sayur dalam permasalahan pengiriman grosir sayur serta dapat memilih berbagai macam sayuran dalam satu aplikasi.
+sistem tengkulak.sayur membuat para produsen sayur dan pemasok sayur tidak harus menempuh jarak jauh antar kota untuk bisa mendapatkan pesanan mereka, sistem tersebut menggunakan internet sehingga bisa digunakan dari rumah.
+mengetahui jadwal pengiriman dan perkiraan waktu sampai.
+Aplikasi ini diharap dapat membantu para produsen sayur dan pemasok sayur dalam bertransaksi dan membuat pengiriman dan transaksi menjadi seefisien mungkin
