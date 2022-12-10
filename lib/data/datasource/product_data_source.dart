@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tengkulak_sayur/data/common/utils/constant.dart';
 import 'package:tengkulak_sayur/data/database/sqflite/database_helper.dart';
 import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/models/product_cart_model.dart';
@@ -13,6 +14,7 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getAllProducts();
   Future<List<ProductModel>> searchProduct(String query);
   Future<List<ProductModel>> getCategoryProduct(String query);
+  Future<ProductModel> getProductById(int id);
   Future<String> insertToCart(ProductCart product);
   Future<String> removeFromCart(ProductCart product);
   Future<List<ProductCart>> getListcart();
@@ -29,10 +31,14 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     final token = await secureStorage.readToken();
     final response = await client.get(Uri.parse('$_baseUrl/product'),
         headers: {'authorization': 'Bearer $token'});
+
+    Map<String, dynamic> data =
+        Map<String, dynamic>.from(json.decode(response.body));
+
     if (response.statusCode == 200) {
-      return ProductResponse.fromJson(json.decode(response.body)).productList;
+      return ProductResponse.fromJson(data).productList;
     } else if (response.statusCode == 500) {
-      throw 'Upps something wrong...';
+      throw data['msg'];
     } else {
       throw ServerException();
     }
@@ -94,6 +100,24 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       return 'Remove from cart';
     } catch (e) {
       throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<ProductModel> getProductById(int id) async {
+    final token = await secureStorage.readToken();
+    final response = await client.get(Uri.parse('$baseUrl/product/$id'),
+        headers: {'authorization': 'Bearer $token'});
+
+    Map<String, dynamic> data =
+        Map<String, dynamic>.from(json.decode(response.body));
+
+    if (response.statusCode == 200) {
+      return ProductModel.fromJson(data['data']);
+    } else if (response.statusCode == 500) {
+      throw data['msg'];
+    } else {
+      throw ServerException();
     }
   }
 }

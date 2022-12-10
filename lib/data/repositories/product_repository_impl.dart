@@ -82,4 +82,18 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(DatabaseFailure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, Product>> getProductById(int id) async {
+    try {
+      final result = await productRemoteDataSource.getProductById(id);
+      return Right(result.toEntity());
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
+    }
+  }
 }

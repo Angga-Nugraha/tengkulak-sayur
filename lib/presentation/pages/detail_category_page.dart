@@ -5,7 +5,6 @@ import 'package:tengkulak_sayur/data/common/utils/routes.dart';
 import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';
-import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 
 import '../widgets/product_card.dart';
 
@@ -53,14 +52,7 @@ class _DetailCategoryState extends State<DetailCategory> {
                   color: Colors.red,
                 ),
                 child: Center(
-                  child: BlocConsumer<CartBloc, CartState>(
-                    listener: (context, state) {
-                      if (state is CartSuccessState) {
-                        mySnackbar(context: context, message: state.message);
-                      } else if (state is CartErrorState) {
-                        mySnackbar(context: context, message: state.message);
-                      }
-                    },
+                  child: BlocBuilder<CartBloc, CartState>(
                     builder: (context, state) {
                       if (state is CartHasData) {
                         final length = state.product.length;

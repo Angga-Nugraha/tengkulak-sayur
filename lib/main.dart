@@ -16,6 +16,7 @@ import 'package:tengkulak_sayur/presentation/pages/auth_page/login_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/auth_page/signup_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/cart_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/detail_category_page.dart';
+import 'package:tengkulak_sayur/presentation/pages/detail_product_page.dart';
 import 'package:tengkulak_sayur/presentation/pages/profile_page/edit_profile.dart';
 import 'package:tengkulak_sayur/presentation/pages/home_page.dart';
 import 'package:tengkulak_sayur/presentation/widgets/bottom_navbar.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.locator<ProductBloc>()),
         BlocProvider(create: (_) => di.locator<CategoryProductBloc>()),
+        BlocProvider(create: (_) => di.locator<GetProductIdBloc>()),
         BlocProvider(create: (_) => di.locator<SearchProductBloc>()),
         BlocProvider(create: (_) => di.locator<CartBloc>()),
         BlocProvider(create: (_) => di.locator<AddUserBloc>()),
@@ -97,6 +99,11 @@ class MyApp extends StatelessWidget {
               String category = settings.arguments as String;
               return MaterialPageRoute(
                 builder: (_) => DetailCategory(category: category),
+              );
+            case detailProductRoute:
+              int id = settings.arguments as int;
+              return MaterialPageRoute(
+                builder: (_) => DetailProductPage(id: id),
               );
 
             default:

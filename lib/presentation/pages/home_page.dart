@@ -188,9 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             final message = state.message;
                             return Text(message);
                           } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return Container();
                           }
                         },
                       ),

@@ -26,3 +26,11 @@ class ProductHasDataState extends ProductState {
   @override
   List<Object?> get props => [result];
 }
+
+class ProductIdHasDataState extends ProductState {
+  final Product result;
+  const ProductIdHasDataState({required this.result});
+
+  @override
+  List<Object?> get props => [result];
+}

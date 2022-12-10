@@ -6,6 +6,7 @@ import 'package:tengkulak_sayur/data/common/utils/constant.dart';
 import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
+import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -58,7 +59,9 @@ class _CartPageState extends State<CartPage> {
             title: const Text('Shopping Cart'),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(Icons.add),
               ),
             ],
@@ -217,16 +220,34 @@ class _CartPageState extends State<CartPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Expanded(child: Text('Total Amount')),
+                      Expanded(
+                          child: Text(
+                        'Total Amount',
+                        style: kHeading6,
+                      )),
                       Expanded(
                           child: Text(
                         'Rp.${totalAmount.toStringAsFixed(2)}',
-                        style: kSubtitle,
+                        style: kHeading6,
                       )),
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (selectedProduct.isEmpty) {
+                        myDialog(
+                          context: context,
+                          title:
+                              'Please select a product if you want to checkout',
+                          textButton1: '',
+                          textButton2: 'OK',
+                          onPressed1: () {},
+                          onPressed2: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      }
+                    },
                     child: const Text('Checkout'),
                   ),
                 ],

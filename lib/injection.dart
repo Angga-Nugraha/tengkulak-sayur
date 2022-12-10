@@ -9,6 +9,7 @@ import 'package:tengkulak_sayur/data/repositories/product_repository_impl.dart';
 
 import 'package:tengkulak_sayur/domain/usecases/auth/login.dart';
 import 'package:tengkulak_sayur/domain/usecases/auth/logout.dart';
+import 'package:tengkulak_sayur/domain/usecases/product/get_product_by_id.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/add_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/delete_user.dart';
 import 'package:tengkulak_sayur/domain/usecases/user/edit_user.dart';
@@ -37,6 +38,9 @@ void init() {
   );
   locator.registerFactory(
     () => CategoryProductBloc(getCategoryProduct: locator()),
+  );
+  locator.registerFactory(
+    () => GetProductIdBloc(getProductById: locator()),
   );
   locator.registerFactory(
     () => SearchProductBloc(searchProduct: locator()),
@@ -76,6 +80,7 @@ void init() {
   locator.registerLazySingleton(() => GetAllProduct(locator()));
   locator.registerLazySingleton(() => SearchProduct(locator()));
   locator.registerLazySingleton(() => GetCategoryProduct(locator()));
+  locator.registerLazySingleton(() => GetProductById(locator()));
   locator.registerLazySingleton(() => AddToCart(locator()));
   locator.registerLazySingleton(() => RemoveFromCart(locator()));
   locator.registerLazySingleton(() => GetListCart(locator()));

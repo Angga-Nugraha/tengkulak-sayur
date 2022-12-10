@@ -8,3 +8,4 @@ const loginPageRoute = '/login_page';
 const splashScreenRoute = '/splash_screen';
 const cartPageRoute = '/cart_page';
 const editProfilePageRoute = '/editProfile_page';
+const detailProductRoute = '/detail_page';

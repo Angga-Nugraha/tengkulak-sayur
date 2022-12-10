@@ -27,6 +27,7 @@ class Product extends Equatable {
     required this.price,
     this.quantity = 0,
   });
+
   int quantity;
   final int id;
   String? uuid;
@@ -61,6 +62,5 @@ class Product extends Equatable {
         userId,
         createdAt,
         updatedAt,
-        quantity,
       ];
 }

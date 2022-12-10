@@ -55,6 +55,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _addresControler;
 
   @override
+  void dispose() {
+    super.dispose();
+    _nameControler.dispose();
+    _emailControler.dispose();
+    _passwordControler.dispose();
+    _confPasswordControler.dispose();
+    _addresControler.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<EditUserBloc, UserState>(
       listener: (context, state) {

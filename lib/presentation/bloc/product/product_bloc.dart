@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/domain/usecases/product/get_all_product.dart';
+import 'package:tengkulak_sayur/domain/usecases/product/get_product_by_id.dart';
 import 'package:tengkulak_sayur/domain/usecases/product/get_product_category.dart';
 import 'package:tengkulak_sayur/domain/usecases/product/search_product.dart';
 
@@ -36,6 +37,25 @@ class CategoryProductBloc extends Bloc<ProductEvent, ProductState> {
       result.fold(
         (failure) => emit(ProductErrorState(failure.message)),
         (data) => emit(ProductHasDataState(result: data)),
+      );
+    });
+  }
+}
+
+//============================================================================//
+class GetProductIdBloc extends Bloc<ProductEvent, ProductState> {
+  final GetProductById getProductById;
+
+  GetProductIdBloc({required this.getProductById})
+      : super(ProductInitialState()) {
+    on<FetchIdProduct>((event, emit) async {
+      emit(ProductLoadingState());
+      final id = event.id;
+      final result = await getProductById.execute(id);
+
+      result.fold(
+        (failure) => emit(ProductErrorState(failure.message)),
+        (data) => emit(ProductIdHasDataState(result: data)),
       );
     });
   }
