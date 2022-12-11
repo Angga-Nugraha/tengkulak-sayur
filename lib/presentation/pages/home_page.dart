@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
-import 'package:tengkulak_sayur/data/common/utils/routes.dart';
+import 'package:tengkulak_sayur/data/styles/text_style.dart';
+import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 import 'package:tengkulak_sayur/presentation/bloc/cart/cart_bloc.dart';
 import 'package:tengkulak_sayur/presentation/bloc/product/product_bloc.dart';

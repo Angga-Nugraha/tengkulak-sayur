@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tengkulak_sayur/data/common/utils/constant.dart';
-import 'package:tengkulak_sayur/data/common/styles/color.dart';
-import 'package:tengkulak_sayur/data/common/styles/text_style.dart';
-import 'package:tengkulak_sayur/data/common/utils/routes.dart';
+import 'package:tengkulak_sayur/data/utils/constant.dart';
+import 'package:tengkulak_sayur/data/styles/color.dart';
+import 'package:tengkulak_sayur/data/styles/text_style.dart';
+import 'package:tengkulak_sayur/data/utils/routes.dart';
 import 'package:tengkulak_sayur/domain/entities/product.dart';
 
 class ProductCard extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/styles/color.dart';
 import 'package:tengkulak_sayur/presentation/bloc/user/user_bloc.dart';
 import 'package:tengkulak_sayur/presentation/pages/components/components_helpers.dart';
 

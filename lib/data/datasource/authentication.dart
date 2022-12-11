@@ -6,8 +6,8 @@ import 'package:path/path.dart' as path;
 import "package:http/http.dart" as http;
 import 'package:tengkulak_sayur/data/database/storageHelper/secure_storage_helper.dart';
 import 'package:tengkulak_sayur/data/models/user_model.dart';
-import 'package:tengkulak_sayur/data/common/utils/constant.dart';
-import 'package:tengkulak_sayur/data/common/utils/exception.dart';
+import 'package:tengkulak_sayur/data/utils/constant.dart';
+import 'package:tengkulak_sayur/data/utils/exception.dart';
 
 abstract class Authentication {
   Future<UserModel> login(String email, String password);

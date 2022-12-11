@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:tengkulak_sayur/data/common/utils/failure.dart';
+import 'package:tengkulak_sayur/data/utils/failure.dart';
 import 'package:tengkulak_sayur/domain/entities/user.dart';
 
 abstract class AuthRepository {

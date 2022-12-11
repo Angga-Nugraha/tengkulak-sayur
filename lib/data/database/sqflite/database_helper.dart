@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
 import 'package:tengkulak_sayur/data/models/product_cart_model.dart';
-import 'package:tengkulak_sayur/data/common/utils/encrypt.dart';
+import 'package:tengkulak_sayur/data/utils/encrypt.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
