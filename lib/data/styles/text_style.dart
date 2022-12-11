@@ -1,7 +1,7 @@
 // text style
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tengkulak_sayur/data/common/styles/color.dart';
+import 'package:tengkulak_sayur/data/styles/color.dart';
 
 final TextStyle kTitle =
     GoogleFonts.firaSans(fontSize: 25, fontWeight: FontWeight.w500);
